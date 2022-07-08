@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_URL: '"https://damp-taiga-05096.herokuapp.com/"'
+  API_URL: '"https://damp-taiga-05096.herokuapp.com/api/"'
 })
