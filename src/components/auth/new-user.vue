@@ -1,7 +1,7 @@
 <template>
   <div class="reg">
     <div class="Sign in">
-      <h3> Type your Email to reset password  </h3>
+      <h3> Create email  </h3>
       <validation-observer ref="observer">
       <b-form v-on:submit.prevent="create_user" method="post">
         <validation
@@ -151,7 +151,7 @@
               <b-form-radio v-model="form.gender"  name="gender" value="Female">Female</b-form-radio>
             </b-form-group>
           </validation>
-        <b-button type="submit" variant="outline-primary">Sign in</b-button>
+        <b-button type="submit" variant="outline-primary">Sign up</b-button>
       </b-form>
       </validation-observer>
       <span v-if="errore!==''">{{errore}}</span>

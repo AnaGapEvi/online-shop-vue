@@ -10,7 +10,7 @@
           class="mx-auto"
         >
           <h3>
-            Login
+            Sign in
           </h3>
           <validation-observer ref="observer">
             <b-form @submit.prevent="login_user">
@@ -59,7 +59,7 @@
                   block
                   type="submit"
                 >
-                  Login
+                  Sign in
                 </b-button>
 
 
