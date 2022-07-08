@@ -6,7 +6,7 @@
         >
           <b-icon @click="addheart(product.id)" class="heart" icon="heart" style="color: red" flip-h></b-icon>
           <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-            <img :src="`http://127.0.0.1:8000/${product.image}`" alt="image book" height="200px" width="200px" >
+            <img :src="`https://dashboard.heroku.com/apps/damp-taiga-05096/${product.image}`" alt="image book" height="200px" width="200px" >
             {{product.name }}
             <hr>
             <p>Price <b>{{product.price}}$</b>  </p>
