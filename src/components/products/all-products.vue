@@ -118,7 +118,7 @@ export default {
     }
     this.my = localStorage.getItem('access_token')
     this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
-    this.hearts = JSON.parse(localStorage.getItem('hearts'))
+    this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
   },
   methods: {
     searchProducts: function()
@@ -182,7 +182,7 @@ export default {
       axios.get('/product/'+id)
         .then((resp)=> {
           if(resp){
-            this.hearts=JSON.parse(localStorage.getItem('hearts'))
+            this.hearts=JSON.parse(localStorage.getItem('hearts')) || []
 
             this.hearts.push(resp.data)
             localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
