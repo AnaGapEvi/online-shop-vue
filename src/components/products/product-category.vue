@@ -6,7 +6,7 @@
         >
           <b-icon @click="addheart(product.id)" class="heart" icon="heart" style="color: red" flip-h></b-icon>
           <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-            <img :src="`https://dashboard.heroku.com/apps/damp-taiga-05096/${product.image}`" alt="image book" height="200px" width="200px" >
+            <img :src="`http://127.0.0.1:8000/${product.image}`" alt="image " height="200px" width="200px" >
             {{product.name }}
             <hr>
             <p>Price <b>{{product.price}}$</b>  </p>
@@ -127,6 +127,7 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   /*background-image: url("https://sbooks.net/wp-content/uploads/2021/10/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg");*/
   /*height: 100vh;*/
   padding:40px;
