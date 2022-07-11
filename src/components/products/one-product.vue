@@ -4,7 +4,7 @@
       <b-card no-body class="overflow-hidden" style="max-width: 50rem;">
         <b-row no-gutters>
           <b-col md="6">
-            <img :src="`public/uploads/images/1657289580.jpg`"  class="shadow-lg p-3 mb-5 bg-white rounded" alt="image book" height="300px" width="300px" >
+            <img :src="`http://127.0.0.1:8000/${product.image}`"  class="shadow-lg p-3 mb-5 bg-white rounded" alt="image book" height="300px" width="300px" >
           </b-col>
           <b-col md="6">
             <b-card-body title="Horizontal Card">

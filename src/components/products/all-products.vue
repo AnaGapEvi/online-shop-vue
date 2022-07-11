@@ -42,6 +42,7 @@
             <p class="like" ><b-icon @click="addLike(product.id)" variant="primary" icon="hand-thumbs-up-fill" style="color: blue" ></b-icon></p>
             <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
               <img :src="`https://dashboard.heroku.com/apps/damp-taiga-05096/${product.image}`" alt="image book" height="200px" width="200px">
+<!--              <img :src="`http://127.0.0.1:8000/${product.image}`" alt="image book" height="200px" width="200px">-->
               {{product.name }}
               <hr>
               <p>Price <b>{{product.price}}$</b>  </p>
