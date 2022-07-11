@@ -12,15 +12,15 @@
             <p class="heart"> <b-icon @click="addHeart(product.id)"  icon="heart-fill" style="color: blue" flip-h></b-icon></p>
             <p class="like" ><b-icon @click="addLike(product.id)" variant="primary" icon="hand-thumbs-up-fill" style="color: blue" ></b-icon></p>
             <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-              <img src="https://damp-taiga-05096.herokuapp.com/uploads/images/1656398308.jpg" alt="image " height="200px" width="200px">
+              <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" alt="image " height="200px" width="200px" >
               {{product.name }}
               <hr>
               <p>Price <b>{{product.price}}$</b>  </p>
               <p>Likes <b>{{product.likes}}</b>  </p>
             </router-link>
             <p> <router-link style="color: black"  :to=" {path: '/one-product/'+product.id}">Reviews</router-link></p>
-            <b-button href="#" variant="success"> <router-link v-if="token===''" style="color: white"  to="/login">Buy</router-link></b-button>
-            <b-button href="#" variant="success"> <router-link v-if="token!==''" style="color: white"  to="/shopping-information">Buy</router-link></b-button>
+            <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
+            <b-button variant="outline-primary" v-if="token!==''"  to="/shopping-information">Buy</b-button>
             <b-button @click="add(product.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
             <b-modal v-model="modalShow">Hello From Modal!</b-modal>
 
