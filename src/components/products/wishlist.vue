@@ -14,7 +14,7 @@
           <hr style="color: white">
         </div>
         <div style="margin-left: 15px">
-          <img :src="`http://127.0.0.1:8000/${item.image}`" alt="image book" height="150px" width="150px">
+          <img :src="`https://damp-taiga-05096.herokuapp.com/${item.image}`" alt="image book" height="150px" width="150px">
           <hr style="color: white">
         </div>
       </div>
