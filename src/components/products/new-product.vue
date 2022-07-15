@@ -185,7 +185,7 @@ export default {
       axios.post('/new-product', formData, config)
         .then((response) => {
           if(response){
-            this.$router.push({name: "Products"})
+            this.$router.push({name: "HelloWorld"})
 
           }
         }).catch( error => {
