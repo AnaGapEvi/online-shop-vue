@@ -86,12 +86,12 @@
                     </div>
                     <div class="col-xs-3">
                       <select class="form-control col-sm-2" name="expiry-month" id="expiry-month" autocomplete="cc-exp-month" v-model="card.expiry_month">
-                        <option value="01" v-if="card.expiry_year>=2022">Jan (01)</option>
-                        <option value="02" v-if="card.expiry_year>2022">Feb (02)</option>
-                        <option value="03" v-if="card.expiry_year>2022">Mar (03)</option>
-                        <option value="04" v-if="card.expiry_year>2022">Apr (04)</option>
-                        <option value="05" v-if="card.expiry_year>2022">May (05)</option>
-                        <option value="06" v-if="card.expiry_year>2022">June (07)</option>
+                        <option value="01" >Jan (01)</option>
+                        <option value="02" >Feb (02)</option>
+                        <option value="03" >Mar (03)</option>
+                        <option value="04" >Apr (04)</option>
+                        <option value="05" >May (05)</option>
+                        <option value="06" >June (07)</option>
                         <option value="08" >Aug (08)</option>
                         <option value="09">Sep (09)</option>
                         <option value="10">Oct (10)</option>
