@@ -2,7 +2,7 @@
   <div class="home">
     <h1 style="text-align: center; color: white" >Welcome to the world of books</h1>
     <input type="text" name="search" v-model="productSearch" placeholder="Search products" class="form-control" v-on:keyup="searchProducts">
-    <div v-if="products.length<=10">
+    <div v-if="products.length<=10" style="display: flex">
       <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product, i) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
               :value="product.id"
               :key="product.id"
