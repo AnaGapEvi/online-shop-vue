@@ -10,7 +10,7 @@
       ></b-icon>
     </button>
     <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-      <img :src="`http://127.0.0.1:8000/${productItem.image}`" height="200px" width="200px">
+      <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">
 
       {{productItem.name }}
       <hr>
