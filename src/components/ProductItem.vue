@@ -14,13 +14,17 @@
 
       {{productItem.name }}
       <hr>
-      <p>Price <b>{{productItem.price}}$</b>  </p>
-      <p>Liked <b>{{total}}</b>  </p>
+      <p>Price <b style="color: green">{{productItem.price}}$</b>  </p>
+      <div style="display: flex; justify-content: space-between">
+        <p>Reviews <router-link style="color: black"  :to=" {path: '/one-product/'+productItem.id}"></router-link></p>
+        <p v-if="total">Liked: <b>{{ total}}</b>  </p>
+
+        <p v-else>Liked: <b>      {{productItem.likes  }}      </b>  </p>
+      </div>
     </router-link>
-    <p> <router-link style="color: black"  :to=" {path: '/one-product/'+productItem.id}">Reviews</router-link></p>
     <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
     <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: productItem.price }}">Buy</b-button>
-    <b-button @click="add(productItem.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
+    <b-button @click="add(productItem.id)"  variant="outline-primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
     <b-modal v-model="modalShow">Hello From Modal!</b-modal>
   </div>
 </template>
