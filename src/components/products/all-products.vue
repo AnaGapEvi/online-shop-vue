@@ -2,21 +2,21 @@
   <div class="home">
     <h1 style="text-align: center; color: white" >Welcome to the world of books</h1>
     <input type="text" name="search" v-model="productSearch" placeholder="Search products" class="form-control" v-on:keyup="searchProducts">
-    <div v-if="products.length<=10" style="display: flex; flex-wrap: wrap">
-      <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product, i) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
+
+    <div v-if="products.length<=10" style="display: flex; flex-wrap: wrap; justify-content: center">
+      <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
               :value="product.id"
               :key="product.id"
       >
         <product-item :product="product"></product-item>
       </b-card>
-        </div>
     </div>
 
 
     <div v-else style="display: flex; flex-wrap: wrap">
       <div  class="overflow-auto" >
         <div Class="d-flex flex-wrap justify-content-center" >
-          <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product, i) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
+          <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
                   :value="product.id"
                   :key="product.id"
           >
