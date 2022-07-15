@@ -5,9 +5,7 @@ import OneProduct from "./one-product";
 import ProductCategory from "./product-category";
 import Wishlist from "./wishlist";
 import StripeElement from "./stripe-element";
-import StripeCheckout from "./stripe-element";
-import Vue from "vue";
-Vue.component(StripeElement)
+import StripeCheckout from "./stripe-checkout";
 export default [
   { path: '/all-products',name: 'Products', component: AllProducts },
   { path: '/edit-product/:id', name:'EditProduct', component: Edit },

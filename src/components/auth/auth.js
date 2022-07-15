@@ -25,6 +25,6 @@ export default [
   { path: '/shopping-cart', name: 'Card', component: AuthBag},
   { path: '/update-user-data', name: 'UpdateUser', component: UpdateUser},
   { path: '/my-profile', name: 'MyProfile', component: MyProfile},
-  { path: '/shopping-information', name: 'ShoppingInformation', component: ShoppingInformation},
+  { path: '/shopping-information/:price', name: 'ShoppingInformation', component: ShoppingInformation},
   { path: '/order-reports', name: 'OrderReports', component: OrderReports},
 ]

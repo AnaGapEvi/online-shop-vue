@@ -2,7 +2,6 @@
   <div class="home">
     <h1 style="text-align: center; color: white" >Welcome to the world of books</h1>
     <input type="text" name="search" v-model="productSearch" placeholder="Search products" class="form-control" v-on:keyup="searchProducts">
-
     <div v-if="products.length<=10">
         <div class="d-flex flex-wrap justify-content-center">
           <b-card style="max-width: 15rem;min-width: 15rem" class="w-20 m-3"  v-for="product in products"
@@ -12,15 +11,15 @@
             <p class="heart"> <b-icon @click="addHeart(product.id)"  icon="heart-fill" style="color: blue" flip-h></b-icon></p>
             <p class="like" ><b-icon @click="addLike(product.id)" variant="primary" icon="hand-thumbs-up-fill" style="color: blue" ></b-icon></p>
             <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-              <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" alt="image " height="200px" width="200px" >
+              <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" height="200px" width="200px" >
               {{product.name }}
               <hr>
               <p>Price <b>{{product.price}}$</b>  </p>
-              <p>Likes <b>{{product.likes}}</b>  </p>
+              <p>Liked <b>{{product.likes}}</b>  </p>
             </router-link>
             <p> <router-link style="color: black"  :to=" {path: '/one-product/'+product.id}">Reviews</router-link></p>
             <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-            <b-button variant="outline-primary" v-if="token!==''"  to="/shopping-information">Buy</b-button>
+            <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: product.price }}">Buy</b-button>
             <b-button @click="add(product.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
             <b-modal v-model="modalShow">Hello From Modal!</b-modal>
 
@@ -30,35 +29,19 @@
           </b-card>
         </div>
     </div>
-    <div v-else>
 
+
+    <div v-else style="display: flex; flex-wrap: wrap">
       <div  class="overflow-auto" >
         <div Class="d-flex flex-wrap justify-content-center">
-          <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="product in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
+          <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product, i) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
                   :value="product.id"
                   :key="product.id"
           >
-            <p class="heart"> <b-icon @click="addHeart(product.id)"  icon="heart-fill" style="color: blue" flip-h></b-icon></p>
-            <p class="like" ><b-icon @click="addLike(product.id)" variant="primary" icon="hand-thumbs-up-fill" style="color: blue" ></b-icon></p>
-            <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-              <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" alt="image book" height="200px" width="200px">
-<!--              <img :src="`http://127.0.0.1:8000/${product.image}`" alt="image book" height="200px" width="200px">-->
-              {{product.name }}
-              <hr>
-              <p>Price <b>{{product.price}}$</b>  </p>
-              <p>Likes <b>{{product.likes}}</b>  </p>
-            </router-link>
-            <p> <router-link style="color: black"  :to=" {path: '/one-product/'+product.id}">Reviews</router-link></p>
-            <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-            <b-button variant="outline-primary" v-if="token!==''"  to="/shopping-information">Buy</b-button>
-            <b-button @click="add(product.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
-            <b-modal v-model="modalShow">Hello From Modal!</b-modal>
-
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" to="">Buy</router-link></b-button>-->
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" :to=" {path: 'edit-product/'+product.id}">Edit</router-link></b-button>-->
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" :to=" {path: 'one-product/'+product.id}">Add to Card</router-link></b-button>-->
+                <product-item :product="product"></product-item>
           </b-card>
         </div>
+
         <b-pagination
           v-model="currentPage"
           :total-rows="rows"
@@ -66,22 +49,29 @@
           aria-controls="my-card"
           style="margin:0 auto"
         ></b-pagination>
-
       </div>
     </div>
-
-
   </div>
-
 </template>
 
 
 
 <script>
+
 import axios from "axios";
+import ProductItem from "../ProductItem";
+
 export default {
+  components: {ProductItem},
   data(){
     return {
+
+      active_el:0,
+      activeColor: 'red',
+      fontSize: 30,
+      count:'',
+      currentHeart: this.mode,
+      currentLike: this.mode,
       perPage: 10,
       currentPage: 1,
       products:[],
@@ -103,27 +93,56 @@ export default {
       error:'',
       likes:[1],
       hearts:[],
+      heartId:[],
+      cart:{},
+      page: 1,
+      isLoading: true,
+      className:'',
     }
   },
   computed: {
     rows() {
+      localStorage.setItem('page', this.currentPage)
+      this.page=localStorage.getItem('page')
+      this.currentPage=this.page;
       return this.products.length
+
+
     }
   },
+
   created() {
     this.getProduct()
     console.log(this.products)
-
+    if (localStorage.getItem('page')){
+      this.page=localStorage.getItem('page')
+    }
   },
   mounted() {
-    if(localStorage.getItem('access_token')){
-      this.token=localStorage.getItem('access_token')
-    }
-    this.my = localStorage.getItem('access_token')
-    this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
-    this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+    this.currentPage= localStorage.getItem('page')
+    this.getCard()
+        if(localStorage.getItem('access_token')){
+          this.token=localStorage.getItem('access_token')
+         }
+      this.my = localStorage.getItem('access_token')
+      this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
+      this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+      this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
   },
   methods: {
+    changeColor(){
+      this.isLoading = !this.isLoading;
+    },
+    greetHeart: function (i) {
+    this.currentHeart  === 'grid' ? this.currentHeart  = '' : this.currentHeart  = 'grid'
+
+    },
+
+    greetLike: function () {
+    this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
+
+    },
+
     searchProducts: function()
     {
       if(this.productSearch == '')
@@ -142,9 +161,10 @@ export default {
       }
       this.products = searchedProducts;
     },
-    getProduct() {
+    getProduct(page) {
       return new Promise((resolve, reject) => {
-        axios.get('products').then((res) => {
+        axios.get('products?page=' + this.page).then((res) => {
+
           this.products = res.data
           this.originalProducts = this.products;
           return resolve(true);
@@ -153,9 +173,22 @@ export default {
         })
       })
     },
+    getCard() {
+      return new Promise((resolve, reject) => {
+        axios.get('/shopping-cart').then((res) => {
+          this.cart = res.data
+          console.log(this.cart)
+          return resolve(true);
+        }).catch((error) => {
+          return reject(error)
+        })
+      })
+    },
     add(id){
       this.card.product_id = id
-      axios.post('/add-card', this.card)
+      // if(this.cart.pivit.product_id !==this.card.product_id){
+
+        axios.post('/add-card', this.card)
         .then((resp)=> {
           if(resp){
             return resp.data
@@ -167,6 +200,9 @@ export default {
         .catch((e) =>{
           this.$router.push({name: "Login"})
         })
+      // } else{
+      //   this.card.quantity++
+      // }
     },
     formSubmit(){
       axios.post('/new-review', this.rate)
@@ -181,29 +217,42 @@ export default {
           console.log(e)
         })
     },
-    addHeart(id){
-      axios.get('/product/'+id)
-        .then((resp)=> {
-          if(resp){
-            this.hearts=JSON.parse(localStorage.getItem('hearts')) || []
+    addHeart(id, i){
+      // this.currentHeart  === 'grid' ? this.currentHeart  = '' : this.currentHeart  = 'grid'
+      console.log(i)
+      if(this.heartId.includes(id)===false) {
+        axios.get('/product/' + id)
+          .then((resp) => {
+            if (resp) {
+              this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+              this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+              this.hearts.push(resp.data)
+              this.heartId.push(resp.data.id)
 
-            this.hearts.push(resp.data)
-            localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
-          } else {
-            console.log('this reviews not found')
-          }
-        })
-        .catch((e) =>{
-          console.log(e)
-        })
+              localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
+              localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
+            } else {
+              console.log('this reviews not found')
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } else {
+        console.log('error')
+      }
     },
-    addLike(id){
+    addLike(id,i){
+      // this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
+      console.log(i)
+
       if(this.likes.includes(id)===false){
         axios.get('/like-product/'+id)
           .then((resp)=> {
-
               this.likes=JSON.parse(localStorage.getItem('likes')) || []
               this.likes.push(resp.data.id)
+
+            this.count = resp.data.likes
               localStorage.setItem('likes', JSON.stringify([...this.likes]))
               window.location.reload()
 
@@ -238,5 +287,18 @@ export default {
   background-image: url("https://sbooks.net/wp-content/uploads/2021/10/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg");
   min-height: 100vh;
   padding:40px;
+}
+.active {
+  color:red;
+  /*font-weight:bold;*/
+}
+.icon:active{
+  background: red;
+}
+.is-red{
+  color: red;
+}
+.is-blue{
+  color: blue;
 }
 </style>

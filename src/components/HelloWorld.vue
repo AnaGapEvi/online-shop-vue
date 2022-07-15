@@ -1,11 +1,8 @@
 <template>
   <div class="home">
 
-      <div class="d-flex justify-content-between mt-3" >
-      </div>
-    <div class="d-flex justify-content-evenly mt-3">
+      <router-link :to="{name: 'HelloWorld', params: {page: page}}">Go to Shop</router-link>
 
-    </div>
   </div>
 </template>
 
@@ -16,10 +13,14 @@ export default {
   components: {NavHome},
   data(){
     return {
+      page: 1,
       count:0,
       categories: [],
     }
   },
+  mounted() {
+    this.page = localStorage.getItem('page') || 1
+  }
 
 }
 </script>

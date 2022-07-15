@@ -1,43 +1,45 @@
+
 <template>
   <div>
-    <stripe-element
-      ref="elementsRef"
+    <stripe-checkout
+      ref="checkoutRef"
+      mode="payment"
       :pk="publishableKey"
-      :amount="amount"
-      @token="tokenCreated"
-      @loading="loading = $event"
-    >
-    </stripe-element>
-    <button @click="submit">Pay ${{amount / 100}}</button>
+      :line-items="lineItems"
+
+      :success-url="successURL"
+      :cancel-url="cancelURL"
+      @loading="v => loading = v"
+    />
+    <button @click="submit">Pay now!</button>
   </div>
 </template>
 
 <script>
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
 export default {
-  data: () => ({
-    loading: false,
-    amount: 1000,
-    publishableKey: process.env.PUBLISHABLE_KEY,
-    token: null,
-    charge: null
-  }),
+  components: {
+    StripeCheckout,
+  },
+  data () {
+    this.publishableKey = "##yourpublishablekey##";
+    return {
+      loading: false,
+      lineItems: [
+        {
+          price: '##priceid##', // The id of the one-time price you created in your Stripe dashboard
+          quantity: 1,
+        },
+      ],
+      successURL: 'http://localhost:8080/success',
+      cancelURL: 'http://localhost:8080/error',
+    };
+  },
   methods: {
     submit () {
-      this.$refs.elementsRef.submit();
+      // You will be redirected to Stripe's secure checkout page
+      this.$refs.checkoutRef.redirectToCheckout();
     },
-    tokenCreated (token) {
-      this.token = token;
-      // for additional charge objects go to https://stripe.com/docs/api/charges/object
-      this.charge = {
-        source: token.card,
-        amount: this.amount,
-        description: this.description
-      }
-      this.sendTokenToServer(this.charge);
-    },
-    sendTokenToServer (charge) {
-      // Send to server
-    }
-  }
-}
+  },
+};
 </script>

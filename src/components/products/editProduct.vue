@@ -1,34 +1,120 @@
 <template>
   <div class="prod">
     <h3>Update Book</h3>
-    <b-form  @submit.prevent="formSubmit" enctype="multipart/form-data">
-      <label>Book name:
-        <b-input type="text" name="name" v-model="product.name"></b-input>
-      </label>
-      <label>Description:
-        <b-textarea  name="description" id="" cols="23" rows="3" v-model="product.description"></b-textarea>
-      </label>
-      <labeL>Price:
-        <b-input type="number" name="price" v-model="product.price"></b-input>
-      </labeL>
-      <label> Quantity:
-        <b-input type="number" name="quantity" v-model="product.quantity"></b-input>
-      </label>
-<!--      <label>Image:-->
-<!--        <input type="file" name="image" @change="onImageChange">-->
-<!--      </label>-->
-      <label>
-        <select style="padding: 6px" v-model="product.category_id">
-          <option> Categories</option>
-          <option v-for="category in categories" :key="category.id " v-bind:value="category.id">
-            {{category.name}}
-          </option>
-        </select>
-      </label>
+    <validation-observer ref="observer">
 
-      <b-button type="submit">update</b-button>
+      <b-form  @submit.prevent="formSubmit" enctype="multipart/form-data">
+        <validation
+          name="book_name"
+          rules="required"
+        >
+          <b-form-group
+            id="input-group-1"
+            label="Book name:"
+            label-for="input-1"
+            slot-scope="{ errors }"
+            :invalid-feedback="errors[0]"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="product.name"
+              type="text"
+              placeholder="book name..."
+              :state="errors[0] ? false : null"
+              trim
 
-    </b-form>
+            ></b-form-input>
+          </b-form-group>
+        </validation>
+        <validation
+          name="book_name"
+          rules="required"
+        >
+          <b-form-group
+            id="input-group-1"
+            label="Description:"
+            label-for="input-1"
+            slot-scope="{ errors }"
+            :invalid-feedback="errors[0]"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="product.description"
+              type="text"
+              placeholder="description..."
+              :state="errors[0] ? false : null"
+              trim
+
+            ></b-form-input>
+          </b-form-group>
+        </validation>
+        <validation
+          name="book_name"
+          rules="required"
+        >
+          <b-form-group
+            id="input-group-1"
+            label="Price:"
+            label-for="input-1"
+            slot-scope="{ errors }"
+            :invalid-feedback="errors[0]"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="product.price"
+              type="number"
+              placeholder="price..."
+              :state="errors[0] ? false : null"
+              trim
+
+            ></b-form-input>
+          </b-form-group>
+        </validation>
+        <validation
+          name="quantity"
+          rules="required"
+        >
+          <b-form-group
+            id="input-group-1"
+            label="Qty:"
+            label-for="input-1"
+            slot-scope="{ errors }"
+            :invalid-feedback="errors[0]"
+          >
+            <b-form-input
+              id="input-1"
+              v-model="product.quantity"
+              type="number"
+              placeholder="qty..."
+              :state="errors[0] ? false : null"
+              trim
+
+            ></b-form-input>
+          </b-form-group>
+        </validation>
+
+        <validation
+          name="category"
+          rules="required"
+        >
+          <b-form-group
+            id="input-group-1"
+            label="Category:"
+            label-for="input-1"
+            slot-scope="{ errors }"
+            :invalid-feedback="errors[0]"
+          >
+            <select style="padding: 6px" v-model="product.category_id">
+              <option v-for="category in categories" :key="category.id " v-bind:value="category.id">
+                {{category.name}}
+              </option>
+            </select>
+          </b-form-group>
+        </validation>
+        <b-button type="submit">add product</b-button>
+
+      </b-form>
+    </validation-observer>
   </div>
 </template>
 

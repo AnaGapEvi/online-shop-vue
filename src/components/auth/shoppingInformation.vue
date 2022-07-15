@@ -1,58 +1,149 @@
 <template>
   <div>
     <b-card bg-variant="light">
-      <b-form-group
-        label-cols-lg="3"
-        label="Shipping Address"
-        label-size="lg"
-        label-class="font-weight-bold pt-0"
-        class="mb-0"
-      >
-            <b-form-group
-              label="Address:"
-              label-for="nested-address"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input id="nested-street" v-model="form.address"></b-form-input>
-            </b-form-group>
 
+
+      <validation-observer ref="observer">
+
+            <b-form-group
+              label-cols-lg="3"
+              label="Shipping Address"
+              label-size="lg"
+              label-class="font-weight-bold pt-0"
+              class="mb-0"
+            >
+              <validation
+                name="address"
+                rules="required"
+              >
+                <b-form-group
+                  label="Address:"
+                  label-for="nested-address"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+                  slot-scope="{ errors }"
+                  :invalid-feedback="errors[0]"
+                >
+                  <b-form-input
+                    id="input-1"
+                    v-model="form.address"
+                    type="text"
+                    minlength="1"
+                    maxlength="10"
+                    placeholder="first name..."
+                    :state="errors[0] ? false : null"
+                    trim
+                  ></b-form-input>
+                </b-form-group>
+              </validation>
+              <validation
+                name="address"
+                rules="required"
+              >
             <b-form-group
               label="City:"
               label-for="nested-city"
               label-cols-sm="3"
               label-align-sm="right"
+              slot-scope="{ errors }"
+              :invalid-feedback="errors[0]"
             >
-              <b-form-input id="nested-city" v-model="form.city"></b-form-input>
-            </b-form-group>
+              <b-form-input
+                id="input-1"
+                v-model="form.city"
+                type="text"
+                minlength="2"
+                maxlength="10"
+                placeholder="city..."
+                :state="errors[0] ? false : null"
+                trim
 
+              ></b-form-input>
+            </b-form-group>
+              </validation>
+              <validation
+                name="address"
+                rules="required"
+              >
             <b-form-group
               label="Country:"
               label-for="nested-country"
               label-cols-sm="3"
               label-align-sm="right"
+              slot-scope="{ errors }"
+              :invalid-feedback="errors[0]"
             >
-              <b-form-input id="nested-country" v-model="form.country"></b-form-input>
+              <b-form-input
+                id="input-1"
+                v-model="form.country"
+                type="text"
+                minlength="2"
+                maxlength="10"
+                placeholder="Country..."
+                :state="errors[0] ? false : null"
+                trim
+
+              ></b-form-input>
             </b-form-group>
+              </validation>
+              <validation
+                name="address"
+                rules="required"
+              >
             <b-form-group
               label="Zip Code:"
               label-for="nested-zip"
               label-cols-sm="3"
               label-align-sm="right"
+              slot-scope="{ errors }"
+              :invalid-feedback="errors[0]"
             >
-              <b-form-input id="nested-zip" v-model="form.zip"></b-form-input>
-            </b-form-group>
+              <b-form-input
+                id="input-1"
+                v-model="form.zip"
+                minlength="2"
+                maxlength="15"
+                type="text"
+                placeholder="zip..."
+                :state="errors[0] ? false : null"
+                trim
 
+              ></b-form-input>
+            </b-form-group>
+              </validation>
+              <validation
+                name="address"
+                rules="required"
+              >
             <b-form-group
               label="Telephone:"
               label-for="nested-state"
               label-cols-sm="3"
               label-align-sm="right"
+
+              slot-scope="{ errors }"
+              :invalid-feedback="errors[0]"
             >
-              <b-form-input type="number" id="nested-telephone" v-model="form.telephone" required></b-form-input>
+              <b-form-input
+                id="input-1"
+
+                v-model="form.telephone"
+                type="number"
+                minlength="5"
+                maxlength="20"
+                placeholder="telephone..."
+                :state="errors[0] ? false : null"
+                trim
+
+              ></b-form-input>
             </b-form-group>
-        <b-button variant="success" @click="ship()">Buy</b-button>
-      </b-form-group>
+              </validation>
+              <p><span style="color: #e59898" v-if="error!==''">{{error}}</span></p>
+               <p>Total: {{this.$route.params.price}} $ </p>
+              <b-button variant="success" @click="ship()">Buy</b-button>
+
+            </b-form-group>
+      </validation-observer>
     </b-card>
   </div>
 </template>
@@ -69,8 +160,8 @@ export default {
           zip:'',
           telephone:'',
           country:''
-
-        }
+        },
+        error:''
     }
   },
   methods:{
@@ -79,16 +170,12 @@ export default {
           axios.post('/shipping-address', this.form)
             .then(result => {
               resolve(true)
-              this.$router.push({name: "Payment"})
+              this.$router.push({name: "Payment", params:{ price: this.$route.params.price}})
             }).catch(error => {
-              alert('lracreq bolor dashter@')
+            this.error="all fields is required"
             reject(error)
-
           })
         })
-
-
-
     }
   }
 }

@@ -1,8 +1,9 @@
 <template>
-  <div style="padding: 50px">
+  <div class="product" style="padding: 50px">
     <div >
       <b-card no-body class="overflow-hidden" style="max-width: 50rem;">
         <b-row no-gutters>
+          <a @click="back()">back</a>
           <b-col md="6">
             <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  class="shadow-lg p-3 mb-5 bg-white rounded" alt="image book" height="300px" width="300px" >
           </b-col>
@@ -16,18 +17,18 @@
               <b-card-text> Price:<b> {{product.price}} USD</b></b-card-text>
               <b-card-text> Likes:<b> {{product.likes}} </b></b-card-text>
               <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-              <b-button variant="outline-primary" v-if="token!==''"  to="/shopping-information">Buy</b-button>
+              <b-button variant="outline-primary" v-if="token!==''" :to="{ name: 'ShoppingInformation', params: { price: product.price }}">Buy</b-button>
               <b-button  @click="add(product.id)"  variant="primary"> Add to cart</b-button>
 
               <b-button v-if="role==='admin'" @click="deleteProduct(product.id)"  variant="danger"> Delete</b-button>
               <router-link v-if="role==='admin'" :to=" {path: '/edit-product/'+product.id}"><b-button variant="info"> Edit</b-button></router-link>
               <div class="mt-3">
                 <b-form  v-on:submit.prevent="formSubmit" method="post">
-                  <div style="width: 90%" >
+                  <div style="width: 100%" >
                     <b-form-rating v-model="rate.value" ></b-form-rating>
                     <div v-if="rate.value>0">
                       <p class="mt-2" v-bind="rate.value">Star: {{ rate.value }}</p>
-                      <textarea  style="width: 90%" v-model="rate.comment"> </textarea>
+                      <textarea  style="width: 100%" v-model="rate.comment"> </textarea>
                       <b-button  type="submit" variant="primary" >Review</b-button>
                     </div>
                     <span v-if="error!==''">{{error}}</span>
@@ -43,17 +44,14 @@
     </div>
 
     <div  style="width: 100%">
-      <div class="mt-3 bg-light"   style="max-width: 30rem; padding: 0; margin: 20px" v-for="review in reviews">
-        <p >
-          Comment: {{review.comment}}
+      <div class="mt-3 bg-light"   style="width: 50rem; padding: 0; " v-for="review in reviews">
+        <div>
+           <p>NAME: {{review.user.first_name}} </p>
+           <p>Comment: {{review.comment}} </p>
           <b-form-rating v-model="review.stars" variant="primary" readonly></b-form-rating>
           <b-button v-if="review.user_id===id" @click="deleteReview(review.id)"  variant="danger"> Delete</b-button>
-          <b-button v-if="review.user_id===id" v-b-modal.modal-1 @click="editReview(review.id)">Edit</b-button>
-        </p>
-        <b-modal id="modal-1" title="Update review">
-          <input type="text" v-model="review.comment" >
-          <b-form-rating v-model="review.stars" variant="primary"></b-form-rating>
-        </b-modal>
+          <b-button v-if="review.user_id===id" @click="openModal(review.id)">Edit</b-button>
+        </div>
         <hr>
         <div class="col-sm-2">
           <div class="rating-stars">
@@ -65,6 +63,11 @@
 
       </div>
     </div>
+    <b-modal id="modal-1" title="Update review">
+          <input type="text" v-model="selectedReview.comment" >
+          <b-form-rating v-model="selectedReview.stars" variant="primary"></b-form-rating>
+          <b-button @click="editReview(selectedReview.id)">edit</b-button>
+    </b-modal>
   </div>
 </template>
 
@@ -80,7 +83,6 @@ export default {
         value:  null,
         comment: '',
         product_id: this.$route.params.id,
-        user_id:''
       },
       cart:{
         quantity:1,
@@ -90,7 +92,9 @@ export default {
       role:'',
       id:'',
       rev_id:'',
-      error:''
+      error:'',
+      selectedReview: {},
+      rev:null
     }
   },
   mounted() {
@@ -100,9 +104,13 @@ export default {
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
+    console.log(this.reviews)
 
   },
   methods:{
+    back(){
+      window.history.go(-1)
+    },
     getMy(){
       return new Promise((resolve, reject) => {
         axios.get('/me')
@@ -139,6 +147,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('reviews/'+ this.$route.params.id).then((res) => {
           this.reviews = res.data
+          console.log(this.reviews)
           return resolve(true);
         }).catch((error) => {
           return reject(error)
@@ -157,14 +166,25 @@ export default {
         })
     },
     editReview(id){
-      axios.delete('/update-review/'+id)
+      console.log(id,this.selectedReview);
+      axios.put('/update-review/'+id, this.selectedReview)
         .then((resp)=> {
           if(resp){
-            // this.$router.push({name: "Home"})
+            console.log(resp.data)
+
+            // this.reviews = resp.data
+            // console.log(this.reviews)
           } else {
             console.log('this reviews not found')
           }
         })
+    },
+    openModal(id) {
+      console.log(id)
+      this.rev = this.reviews.filter((e)=>e.id === id )
+      this.selectedReview = this.rev[0]
+      console.log(this.selectedReview)
+      this.$bvModal.show("modal-1");
     },
     formSubmit(){
       axios.post('/new-review', this.rate)
@@ -172,15 +192,13 @@ export default {
           if(resp){
             this.products=this.reviews
             window.location.reload()
-            this.$router.push({name: "Home"})
           }
           else {
             console.log('this reviews not found')
           }
-        })
-        .catch((e) =>{
+        }).catch((e) =>{
           if(!localStorage.getItem("access_token") ){
-              this.error='Go tu login or registration'
+              this.error='Go to login or registration'
           }else{
             this.error='fill in all fields'
             console.log(e)
@@ -192,7 +210,6 @@ export default {
     add(id){
       this.cart.product_id= id
       axios.post('/add-card', this.cart)
-
         .then((resp)=> {
           if(resp){
             return resp.data
@@ -212,13 +229,14 @@ export default {
 
 <style scoped>
 .product{
-  display: flex;
+  /*display: flex;*/
 
-  width: 100%;
-  height: 100vh;
-  background-color: #c5d3d3;
-  justify-content: space-between;
-  align-items: center;
+  /*width: 100%;*/
+  /*height: 100vh;*/
+  background-color: #343a40;
+  min-height: 100vh;
+  /*justify-content: space-between;*/
+  /*align-items: center;*/
   /*color: white;*/
 }
 </style>

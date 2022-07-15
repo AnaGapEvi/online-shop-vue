@@ -32,11 +32,13 @@ export default {
         quantity:1,
         product_id:null
       },
-      token:''
+      token:'',
+      heartId:''
     }
   },
   mounted() {
     this.wishlist=JSON.parse(localStorage.getItem('hearts'))
+    this.heartId=JSON.parse(localStorage.getItem('heartId'))
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
@@ -45,7 +47,9 @@ export default {
     deleteItem(id){
       console.log(id)
       this.wishlist = this.wishlist.filter((e)=>e.id !== id )
+      this.heartId = this.heartId.splice(id, 1)
       localStorage.setItem('hearts', JSON.stringify(this.wishlist))
+      localStorage.setItem('heartId', JSON.stringify(this.heartId))
     },
     add(id){
       this.card.product_id = id

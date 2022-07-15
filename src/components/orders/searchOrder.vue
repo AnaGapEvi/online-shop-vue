@@ -14,7 +14,7 @@
       <p>Amount: {{order.amount}}</p>
       <p>Date: {{order.created_at}}</p>
     </div>
-    <span v-else>{{error}}</span>
+    <span v-else style="color: #e55757">{{error}}</span>
 
   </div>
 </template>
@@ -32,14 +32,19 @@ export default {
   },
   methods:{
     OrderItems(){
-      axios.get('/order-items/'+this.searchOrder)
-        .then((resp)=> {
-          this.order=resp.data
-          this.length=1
-        }).catch((error) => {
+      if(this.searchOrder!==''){
+        axios.get('/order-items/'+this.searchOrder)
+          .then((resp)=> {
+            this.order=resp.data
+            this.length=1
+          }).catch((error) => {
           this.length=0
           this.error=error.response.data.message
-      })
+        })
+      } else {
+        this.error = "fill in the  field!!!"
+      }
+
     },
   },
 
