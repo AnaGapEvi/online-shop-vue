@@ -50,6 +50,7 @@ export default {
     }
   },
   computed: {
+
     total(){
       let num=0
       num = this.count
@@ -74,6 +75,7 @@ export default {
         .then((resp)=> {
           if(resp){
             return resp.data
+
             // this.$router.push({name: "Home"})
           } else {
             console.log('this reviews not found')
@@ -115,26 +117,7 @@ export default {
         console.log('error')
       }
     },
-    addLike(id){
-      if(this.likes.includes(id)===false){
-        axios.get('/like-product/'+id)
-          .then((resp)=> {
-            this.likes=JSON.parse(localStorage.getItem('likes')) || []
-            this.likes.push(resp.data.id)
-            this.count = resp.data.likes
-            localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            // window.location.reload()
-            // this.count =''
-          })
-          .catch((e) =>{
-            console.log(e)
-          })
-      } else{
-        // this.isClicked2 =true
-        console.log('error')
-      }
 
-    }
   }
 }
 </script>

@@ -94,6 +94,7 @@ export default {
   },
 
   created() {
+
     this.getProduct()
     console.log(this.products)
     if (localStorage.getItem('page')){
@@ -115,16 +116,6 @@ export default {
     changeColor(){
       this.isLoading = !this.isLoading;
     },
-    greetHeart: function (i) {
-    this.currentHeart  === 'grid' ? this.currentHeart  = '' : this.currentHeart  = 'grid'
-
-    },
-
-    greetLike: function () {
-    this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
-
-    },
-
     searchProducts: function()
     {
       if(this.productSearch == '')
@@ -143,9 +134,9 @@ export default {
       }
       this.products = searchedProducts;
     },
-    getProduct(page) {
+    getProduct() {
       return new Promise((resolve, reject) => {
-        axios.get('products?page=' + this.page).then((res) => {
+        axios.get('products').then((res) => {
 
           this.products = res.data
           this.originalProducts = this.products;
@@ -168,7 +159,6 @@ export default {
     },
     add(id){
       this.card.product_id = id
-      // if(this.cart.pivit.product_id !==this.card.product_id){
 
         axios.post('/add-card', this.card)
         .then((resp)=> {
@@ -224,29 +214,29 @@ export default {
         console.log('error')
       }
     },
-    addLike(id,i){
-      // this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
-      console.log(i)
-
-      if(this.likes.includes(id)===false){
-        axios.get('/like-product/'+id)
-          .then((resp)=> {
-              this.likes=JSON.parse(localStorage.getItem('likes')) || []
-              this.likes.push(resp.data.id)
-
-            this.count = resp.data.likes
-              localStorage.setItem('likes', JSON.stringify([...this.likes]))
-              window.location.reload()
-
-          })
-          .catch((e) =>{
-            console.log(e)
-          })
-      } else{
-      console.log('error')
-    }
-
-    }
+    // addLike(id,i){
+    //   // this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
+    //   console.log(i)
+    //
+    //   if(this.likes.includes(id)===false){
+    //     axios.get('/like-product/'+id)
+    //       .then((resp)=> {
+    //           this.likes=JSON.parse(localStorage.getItem('likes')) || []
+    //           this.likes.push(resp.data.id)
+    //
+    //         this.count = resp.data.likes
+    //           localStorage.setItem('likes', JSON.stringify([...this.likes]))
+    //           window.location.reload()
+    //
+    //       })
+    //       .catch((e) =>{
+    //         console.log(e)
+    //       })
+    //   } else{
+    //   console.log('error')
+    // }
+    //
+    // }
   }
 }
 </script>
