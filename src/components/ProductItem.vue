@@ -15,7 +15,7 @@
       {{productItem.name }}
       <hr>
       <p>Price <b>{{productItem.price}}$</b>  </p>
-      <p>Liked <b>{{productItem.likes}}</b>  </p>
+      <p>Liked <b>{{total}}</b>  </p>
     </router-link>
     <p> <router-link style="color: black"  :to=" {path: '/one-product/'+productItem.id}">Reviews</router-link></p>
     <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
@@ -41,14 +41,21 @@ export default {
       likes:[],
       hearts:[],
       modalShow: false,
+      heartId:[],
       card:{
         quantity:1,
         product_id:null
       },
-
+      count:''
     }
   },
   computed: {
+    total(){
+      let num=0
+      num = this.count
+      this.count=''
+      return num
+    }
 
   },
   mounted() {
@@ -108,8 +115,7 @@ export default {
         console.log('error')
       }
     },
-    addLike(id,i){
-      console.log(i)
+    addLike(id){
       if(this.likes.includes(id)===false){
         axios.get('/like-product/'+id)
           .then((resp)=> {
@@ -117,8 +123,8 @@ export default {
             this.likes.push(resp.data.id)
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            window.location.reload()
-
+            // window.location.reload()
+            // this.count =''
           })
           .catch((e) =>{
             console.log(e)
