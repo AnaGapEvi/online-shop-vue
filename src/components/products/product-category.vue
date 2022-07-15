@@ -6,24 +6,16 @@
                 :value="product.id"
                 :key="product.id"
         >
-          <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-            <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`"  height="200px" width="200px" >
-<!--            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  height="200px" width="200px" >-->
-            {{product.name }}
-            <hr>
-            <p>Price <b>{{product.price}}$</b>  </p>
-          </router-link>
-<!--          <b-button href="#" variant="primary"> <router-link style="color: white" :to=" {path: 'edit-product/'+product.id}">Edit</router-link></b-button>-->
-          <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-          <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: product.price }}">Buy</b-button>
-           <b-button @click="add(product.id)"  variant="primary"> Add to cart</b-button>
+      <product-item :product="product"></product-item>
       </b-card>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ProductItem from "../ProductItem";
 export default {
+  components: {ProductItem},
   data(){
     return {
       originalProducts: [],
@@ -42,19 +34,41 @@ export default {
         comment: '',
         product_id: ''
       },
-      hearts:[]
+      hearts:[],
+      heartId:'',
+      // hearts:[],
+      likes:[],
+      like:'',
+      // count:'',
+      isClicked: false,
+      isClicked2: false,
     }
   },
   computed: {
     rows() {
       return this.products.length
-    }
+    },
+    total(){
+        let num=0
+        num = this.count
+        this.count=''
+        return num
+      }
   },
   mounted() {
     this.getProduct()
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
+
+    if(localStorage.getItem('access_token')){
+      this.token=localStorage.getItem('access_token')
+    }
+    this.my = localStorage.getItem('access_token')
+    this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
+    this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+    this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+
   },
   methods: {
     getProduct() {
@@ -113,20 +127,58 @@ export default {
           this.$router.push({name: "Login"})
         })
     },
-    addheart(id){
-      axios.get('/product/'+id)
-        .then((resp)=> {
-          if(resp){
-            this.hearts.push(resp.data)
-            localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
-          } else {
-            console.log('this reviews not found')
-          }
-        })
-        .catch((e) =>{
-          console.log(e)
-        })
-    }
+
+    toggleIsClicked: function (id) {
+      this.isClicked = !this.isClicked
+      if(this.isClicked===false){
+        this.likes = this.likes.filter((e)=>e.id !== id )
+      }
+    },
+    changeColor(){
+      this.isClicked2 = !this.isClicked2
+    },
+    addHeart(id){
+      if(this.heartId.includes(id)===false) {
+        axios.get('/product/' + id)
+          .then((resp) => {
+            if (resp) {
+              this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+              this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+              this.hearts.push(resp.data)
+              this.heartId.push(resp.data.id)
+              localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
+              localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
+            } else {
+              console.log('this reviews not found')
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } else {
+        console.log('error')
+      }
+    },
+    addLike(id){
+      if(this.likes.includes(id)===false){
+        axios.get('/like-product/'+id)
+          .then((resp)=> {
+            this.likes=JSON.parse(localStorage.getItem('likes')) || []
+            this.likes.push(resp.data.id)
+            this.count = resp.data.likes
+            localStorage.setItem('likes', JSON.stringify([...this.likes]))
+            window.location.reload()
+            // this.count =''
+          })
+          .catch((e) =>{
+            console.log(e)
+          })
+      } else{
+        // this.isClicked2 =true
+        console.log('error')
+      }
+
+    },
   }
 }
 </script>
