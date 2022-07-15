@@ -3,30 +3,12 @@
     <h1 style="text-align: center; color: white" >Welcome to the world of books</h1>
     <input type="text" name="search" v-model="productSearch" placeholder="Search products" class="form-control" v-on:keyup="searchProducts">
     <div v-if="products.length<=10">
-        <div class="d-flex flex-wrap justify-content-center">
-          <b-card style="max-width: 15rem;min-width: 15rem" class="w-20 m-3"  v-for="product in products"
-                  :value="product.id"
-                  :key="product.id"
-          >
-            <p class="heart"> <b-icon @click="addHeart(product.id)"  icon="heart-fill" style="color: blue" flip-h></b-icon></p>
-            <p class="like" ><b-icon @click="addLike(product.id)" variant="primary" icon="hand-thumbs-up-fill" style="color: blue" ></b-icon></p>
-            <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
-              <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" height="200px" width="200px" >
-              {{product.name }}
-              <hr>
-              <p>Price <b>{{product.price}}$</b>  </p>
-              <p>Liked <b>{{product.likes}}</b>  </p>
-            </router-link>
-            <p> <router-link style="color: black"  :to=" {path: '/one-product/'+product.id}">Reviews</router-link></p>
-            <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-            <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: product.price }}">Buy</b-button>
-            <b-button @click="add(product.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
-            <b-modal v-model="modalShow">Hello From Modal!</b-modal>
-
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" to="">Buy</router-link></b-button>-->
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" :to=" {path: 'edit-product/'+product.id}">Edit</router-link></b-button>-->
-            <!--          <b-button href="#" variant="primary"> <router-link style="color: white" :to=" {path: 'one-product/'+product.id}">Add to Card</router-link></b-button>-->
-          </b-card>
+      <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product, i) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
+              :value="product.id"
+              :key="product.id"
+      >
+        <product-item :product="product"></product-item>
+      </b-card>
         </div>
     </div>
 

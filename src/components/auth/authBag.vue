@@ -32,9 +32,11 @@
         </td>
       </tr>
     </table>
+    <div class="total">
+      <p style="margin-right: 15px"> Total: {{total}} $</p>
+      <router-link v-if="total>0" :to="{ name: 'ShoppingInformation', params: { price: total }}"><b-button variant="info" type="submit">  Buy </b-button></router-link>
+    </div>
 
-    Total: {{total}} $
-    <router-link :to="{ name: 'ShoppingInformation', params: { price: total }}"><b-button variant="info" type="submit">  Pay</b-button></router-link>
   </div>
 </template>
 
@@ -113,10 +115,11 @@ table {
   width: 100%;
 }
 
-td, th {
-  border: 1px solid #dddddd;
+ th, tr {
+  border-bottom: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  margin-bottom: 5px;
 }
 .button_item{
   cursor: pointer;
@@ -126,5 +129,11 @@ td, th {
   background-color: #343a40;
   min-height: 100vh;
   color: white;
+}
+.total{
+  margin-top: 20px;
+  display: flex;
+   justify-content: flex-end;
+  align-items: center;
 }
 </style>

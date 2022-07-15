@@ -103,7 +103,7 @@
           slot-scope="{ errors }"
           :invalid-feedback="errors[0]"
         >
-          <input type="file" name="image" @change="onImageChange" :state="errors[0] ? false : null">
+          <b-form-input type="file" name="image" @change="onImageChange" :state="errors[0] ? false : null"></b-form-input>
         </b-form-group>
       </validation>
       <validation

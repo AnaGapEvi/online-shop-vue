@@ -1,15 +1,15 @@
 <template>
   <div style="max-width: 100%">
-    <button style="border: none; background-color: white"  @click="addHeart(product.id)">
+    <button style="border: none; background-color: white"  @click="addHeart(productItem.id)">
       <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" @click="toggleIsClicked(productItem.id)">
         >   </b-icon>
     </button>
 
-    <button style="border: none; background-color: white" @click="addLike(product.id)">
+    <button style="border: none; background-color: white" @click="addLike(productItem.id)">
       <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null" @click="changeColor(productItem.id)"
       ></b-icon>
     </button>
-    <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+product.id}">
+    <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+productItem.id}">
       <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">
 
       {{productItem.name }}
@@ -17,10 +17,10 @@
       <p>Price <b>{{productItem.price}}$</b>  </p>
       <p>Liked <b>{{productItem.likes}}</b>  </p>
     </router-link>
-    <p> <router-link style="color: black"  :to=" {path: '/one-product/'+product.id}">Reviews</router-link></p>
+    <p> <router-link style="color: black"  :to=" {path: '/one-product/'+productItem.id}">Reviews</router-link></p>
     <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-    <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: product.price }}">Buy</b-button>
-    <b-button @click="add(product.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
+    <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: productItem.price }}">Buy</b-button>
+    <b-button @click="add(productItem.id)"  variant="primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
     <b-modal v-model="modalShow">Hello From Modal!</b-modal>
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
       isClicked: false,
       isClicked2: false,
       token:'',
-      likes:'',
-      hearts:'',
+      likes:[],
+      hearts:[],
       modalShow: false,
       card:{
         quantity:1,
@@ -47,6 +47,9 @@ export default {
       },
 
     }
+  },
+  computed: {
+
   },
   mounted() {
     if(localStorage.getItem('access_token')){
@@ -60,8 +63,6 @@ export default {
   methods: {
     add(id){
       this.card.product_id = id
-      // if(this.cart.pivit.product_id !==this.card.product_id){
-
       axios.post('/add-card', this.card)
         .then((resp)=> {
           if(resp){
@@ -114,7 +115,6 @@ export default {
           .then((resp)=> {
             this.likes=JSON.parse(localStorage.getItem('likes')) || []
             this.likes.push(resp.data.id)
-
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
             window.location.reload()
