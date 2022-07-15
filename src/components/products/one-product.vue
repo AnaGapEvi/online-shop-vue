@@ -14,7 +14,8 @@
               <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null" @click="changeColor(product.id)"
               ></b-icon>
             </button>
-            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  class="shadow-lg p-3 bg-white rounded" height="300px" width="300px" >
+            <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`"  class="shadow-lg p-3 bg-white rounded" height="300px" width="300px" >
+<!--            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  class="shadow-lg p-3 bg-white rounded" height="300px" width="300px" >-->
           </b-col>
           <b-col md="6">
             <b-card-body title="Horizontal Card">

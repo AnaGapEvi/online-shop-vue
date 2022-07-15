@@ -15,7 +15,8 @@
         </div>
         <div style="margin-left: 15px">
           <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+item.id}">
-            <img :src="`https://damp-taiga-05096.herokuapp.com/${item.image}`"  height="150px" width="150px">
+            <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`"  height="150px" width="150px">
+<!--            <img :src="`https://damp-taiga-05096.herokuapp.com/${item.image}`"  height="150px" width="150px">-->
           </router-link>
           <hr style="color: white">
         </div>

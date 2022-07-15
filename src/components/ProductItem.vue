@@ -10,8 +10,8 @@
       ></b-icon>
     </button>
     <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+productItem.id}">
-      <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">
-
+      <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`" height="200px" width="200px">
+<!--      <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">-->
       {{productItem.name }}
       <hr>
       <p>Price <b style="color: green">{{productItem.price}}$</b>  </p>
