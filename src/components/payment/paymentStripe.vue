@@ -57,6 +57,7 @@
                       label-class="form-label"
                       label="Card number"
                       label-for="Card number"
+                      :max="16"
                       aria-placeholder="****************"
                       slot-scope="{ errors }"
                       :invalid-feedback="errors[0]"

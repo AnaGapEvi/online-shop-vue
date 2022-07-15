@@ -141,6 +141,7 @@
               <p><span style="color: #e59898" v-if="error!==''">{{error}}</span></p>
                <p>Total: {{this.$route.params.price}} $ </p>
               <b-button variant="success" @click="ship()">Buy</b-button>
+              <b-button variant="info" @click="back()">back</b-button>
 
             </b-form-group>
       </validation-observer>
@@ -176,7 +177,11 @@ export default {
             reject(error)
           })
         })
-    }
+    },
+    back(){
+        window.history.go(-1)
+      },
+
   }
 }
 </script>

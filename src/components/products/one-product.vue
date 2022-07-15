@@ -3,9 +3,18 @@
     <div >
       <b-card no-body class="overflow-hidden" style="max-width: 50rem;">
         <b-row no-gutters>
-          <a @click="back()">back</a>
+          <a @click="back()" style="display: flex; justify-content: flex-end"><b-icon icon="x" scale="2" variant="dark" ></b-icon></a>
           <b-col md="6">
-            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  class="shadow-lg p-3 mb-5 bg-white rounded" alt="image book" height="300px" width="300px" >
+            <button style="border: none; background-color: white; position: absolute"  @click="addHeart(product.id)">
+              <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" @click="toggleIsClicked(product.id)">
+                >   </b-icon>
+            </button>
+
+            <button style="border: none; background-color: white; position: absolute; margin-left: 35px" @click="addLike(product.id)">
+              <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null" @click="changeColor(product.id)"
+              ></b-icon>
+            </button>
+            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`"  class="shadow-lg p-3 bg-white rounded" height="300px" width="300px" >
           </b-col>
           <b-col md="6">
             <b-card-body title="Horizontal Card">
@@ -88,14 +97,24 @@ export default {
         quantity:1,
         product_id:null
       },
+      count:'',
+      isClicked: false,
+      isClicked2: false,
       token:'',
       role:'',
       id:'',
       rev_id:'',
       error:'',
       selectedReview: {},
-      rev:null
+      rev:null,
+      heartId:'',
+      hearts:[],
+      likes:[],
+      like:''
     }
+  },
+  computed:{
+    // this.addLike();
   },
   mounted() {
     this.getProduct()
@@ -106,10 +125,70 @@ export default {
     }
     console.log(this.reviews)
 
+      if(localStorage.getItem('access_token')){
+        this.token=localStorage.getItem('access_token')
+      }
+      this.my = localStorage.getItem('access_token')
+      this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
+      this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+      this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+
   },
   methods:{
     back(){
       window.history.go(-1)
+    },
+    toggleIsClicked: function (id) {
+      this.isClicked = !this.isClicked
+      if(this.isClicked===false){
+        this.likes = this.likes.filter((e)=>e.id !== id )
+      }
+    },
+    changeColor(){
+      this.isClicked2 = !this.isClicked2
+    },
+    addHeart(id){
+      // this.currentHeart  === 'grid' ? this.currentHeart  = '' : this.currentHeart  = 'grid'
+      if(this.heartId.includes(id)===false) {
+        axios.get('/product/' + id)
+          .then((resp) => {
+            if (resp) {
+              this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+              this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+              this.hearts.push(resp.data)
+              this.heartId.push(resp.data.id)
+              localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
+              localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
+            } else {
+              console.log('this reviews not found')
+            }
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      } else {
+        console.log('error')
+      }
+    },
+    addLike(id){
+      if(this.likes.includes(id)===false){
+        axios.get('/like-product/'+id)
+          .then((resp)=> {
+            this.likes=JSON.parse(localStorage.getItem('likes')) || []
+            this.likes.push(resp.data.id)
+            this.count = resp.data.likes
+            localStorage.setItem('likes', JSON.stringify([...this.likes]))
+            window.location.reload()
+            // this.count =''
+          })
+          .catch((e) =>{
+            console.log(e)
+          })
+      } else{
+        // this.isClicked2 =true
+        console.log('error')
+      }
+
     },
     getMy(){
       return new Promise((resolve, reject) => {

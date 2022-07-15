@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
     <b-navbar style="z-index: 1" toggleable="lg" type="dark" variant="dark" class="d-flex justify-content-between w-100  position-fixed text-decoration-none">
-      <b-navbar-brand :to="{ name: 'HelloWorld' }">Shopping portal</b-navbar-brand>
+      <b-navbar-brand  > <button @click="shoppingPortal" style="border: none; background-color: unset; color: white ">Shopping portal</button></b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse"  class="w-100" is-nav>
         <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
@@ -63,6 +63,7 @@ export default {
      categories: [],
      search:'',
      order:{},
+     page: 1
 
    }
  },
@@ -113,6 +114,15 @@ export default {
         return error
       })
     },
+    shoppingPortal(){
+       this.page = localStorage.getItem('page')
+      this.page = 1
+      // this.page = localStorage.getItem('page')
+      localStorage.setItem('page', this.page)
+      this.$router.push({ name: 'HelloWorld' })
+      window.location.reload()
+    },
+
     // getResults() {
     //   this.axios.get('/livesearch', { params: { keyword: this.keyword } })
     //     .then((res) => {

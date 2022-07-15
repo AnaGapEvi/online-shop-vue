@@ -105,6 +105,7 @@ export default {
             window.location.reload()
           }).catch(error => {
             this.error=error.response.data.message
+            this.form.password = ''
           })
       })
     },

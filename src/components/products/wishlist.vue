@@ -10,11 +10,13 @@
           <b-button variant="outline-danger" @click="deleteItem(item.id)" >Delete</b-button>
           <b-button variant="outline-primary" @click="add(item.id)" >Add to cart</b-button>
           <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
-          <b-button variant="outline-primary" v-if="token!==''"  to="/shopping-information">Buy</b-button>
+          <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: item.price }}">Buy</b-button>
           <hr style="color: white">
         </div>
         <div style="margin-left: 15px">
-          <img :src="`https://damp-taiga-05096.herokuapp.com/${item.image}`" alt="image book" height="150px" width="150px">
+          <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+item.id}">
+            <img :src="`https://damp-taiga-05096.herokuapp.com/${item.image}`"  height="150px" width="150px">
+          </router-link>
           <hr style="color: white">
         </div>
       </div>

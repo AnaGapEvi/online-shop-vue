@@ -1,6 +1,6 @@
 <template>
   <div style="max-width: 100%">
-    <button style="border: none; background-color: white"  @click="addHeart(productItem.id)">
+    <button style="border: none; background-color: white; margin-right: 125px"  @click="addHeart(productItem.id)">
       <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" @click="toggleIsClicked(productItem.id)">
         >   </b-icon>
     </button>

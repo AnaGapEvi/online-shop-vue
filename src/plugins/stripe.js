@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { StripePlugin, StripeElementCard} from '@vue-stripe/vue-stripe';
+import { StripePlugin } from '@vue-stripe/vue-stripe';
 
 const options = {
   pk: process.env.STRIPE_PUBLISHABLE_KEY,
@@ -9,4 +9,3 @@ const options = {
 };
 
 Vue.use(StripePlugin, options);
-Vue.component(StripeElementCard)
