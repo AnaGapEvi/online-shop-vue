@@ -61,11 +61,13 @@ export default {
       return num
     }
 
+
   },
+
   mounted() {
     if(localStorage.getItem('likes')){
-      this.likes = localStorage.getItem('access_token')
-
+      this.likes = localStorage.getItem('likes')
+      console.log(this.likes)
     }
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
@@ -92,13 +94,14 @@ export default {
         })
     },
     toggleIsClicked: function (id) {
-      this.isClicked = !this.isClicked
+      this.isClicked = true
+
+    },
+    changeColor(){
+      this.isClicked2 = true
       if(this.isClicked===false){
         this.likes = this.likes.filter((e)=>e.id !== id )
       }
-    },
-    changeColor(){
-      this.isClicked2 = !this.isClicked2
     },
     addHeart(id){
       if(this.heartId.includes(id)===false) {
@@ -119,6 +122,7 @@ export default {
             console.log(e)
           })
       } else {
+
         console.log('error')
       }
     },
@@ -137,8 +141,9 @@ export default {
             console.log(e)
           })
       } else{
+        // this.changeColor()
         // this.isClicked2 =true
-        console.log('error')
+        console.log('that product is liked')
       }
 
     }

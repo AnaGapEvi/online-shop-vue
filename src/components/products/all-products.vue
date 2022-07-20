@@ -20,15 +20,17 @@
                 <product-item :product="product"></product-item>
           </b-card>
         </div>
+        <p @click="moveTo">
+          <b-pagination
 
-        <b-pagination
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-card"
+            style="margin:0 auto"
+          ></b-pagination>
+        </p>
 
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-card"
-          style="margin:0 auto"
-        ></b-pagination>
       </div>
     </div>
   </div>
@@ -116,18 +118,24 @@ export default {
 
 
     },
+    // resetScrollTop: function () {
+    //   this.$refs.modalview.scrollTop = 0
+    // },
     moveTo () {
-      let to = this.moveToDown
+      window.scrollTo(0,0);
 
-        ? this.$refs.description.offsetTop - 700  : 0
 
-      window.scroll({
-        top: to,
-        left: 0,
-        behavior: 'smooth'
-      })
-
-      this.moveToDown = !this.moveToDown
+      // let to = this.moveToDown
+      //
+      //   ? this.$refs.description.offsetTop - 700  : 0
+      //
+      // window.scroll({
+      //   top: to,
+      //   left: 0,
+      //   behavior: 'smooth'
+      // })
+      //
+      // this.moveToDown = !this.moveToDown
     },
 
     changeColor(){
