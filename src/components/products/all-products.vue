@@ -11,7 +11,7 @@
       </b-card>
     </div>
     <div v-else style="display: flex; flex-wrap: wrap">
-      <div  class="overflow-auto"  @click.prevent="click()" >
+      <div  class="overflow-auto"  >
         <div Class="d-flex flex-wrap justify-content-center" >
           <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
                   :value="product.id"
@@ -22,6 +22,7 @@
         </div>
 
         <b-pagination
+
           v-model="currentPage"
           :total-rows="rows"
           :per-page="perPage"
@@ -75,6 +76,7 @@ export default {
       page: 1,
       isLoading: true,
       className:'',
+      moveToDown:false
     }
   },
   computed: {
@@ -82,6 +84,8 @@ export default {
       localStorage.setItem('page', this.currentPage)
       this.page=localStorage.getItem('page')
       this.currentPage=this.page;
+
+
       return this.products.length
     }
   },
@@ -107,8 +111,25 @@ export default {
   },
   methods: {
     click(){
-      window.location.reload()
+
+        window.location.reload()
+
+
     },
+    moveTo () {
+      let to = this.moveToDown
+
+        ? this.$refs.description.offsetTop - 700  : 0
+
+      window.scroll({
+        top: to,
+        left: 0,
+        behavior: 'smooth'
+      })
+
+      this.moveToDown = !this.moveToDown
+    },
+
     changeColor(){
       this.isLoading = !this.isLoading;
     },
