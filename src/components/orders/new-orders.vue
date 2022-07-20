@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="new">
     <h1>new order</h1>
     <table style="width: 80%; border: black 1px solid">
       <tr style="border: black 1px solid">
@@ -71,5 +71,8 @@ export default {
 <style scoped>
 .th{
   border: 1px solid black;
+}
+.new{
+  padding: 70px;
 }
 </style>

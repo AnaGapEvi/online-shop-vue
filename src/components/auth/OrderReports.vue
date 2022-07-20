@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="reports">
     <form method="get">
       <input type="date" name="start" v-model="form.start">
       <input type="date" name="end" v-model="form.end">
@@ -45,5 +45,7 @@ export default {
 </script>
 
 <style scoped>
-
+.reports{
+  padding: 70px;
+}
 </style>

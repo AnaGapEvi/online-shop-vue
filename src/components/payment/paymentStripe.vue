@@ -57,7 +57,7 @@
                       label-class="form-label"
                       label="Card number"
                       label-for="Card number"
-                      :max="16"
+
                       aria-placeholder="****************"
                       slot-scope="{ errors }"
                       :invalid-feedback="errors[0]"
@@ -67,7 +67,7 @@
                         id="number"
                         v-model="card.card_number"
                         :state="errors[0] ? false : null"
-                        :max="16"
+                        :maxlength="maxlength"
                         trim
                       />
                     </b-form-group>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-xs-3">
                       <select class="form-control col-sm-2" name="expiry-month" id="expiry-month" autocomplete="cc-exp-month" v-model="card.expiry_month">
-                        <option value="01" >Jan (01)</option>
+                        <option value="01" v-if="card.expiry_year > 22" >Jan (01)</option>
                         <option value="02" >Feb (02)</option>
                         <option value="03" >Mar (03)</option>
                         <option value="04" >Apr (04)</option>
@@ -103,9 +103,10 @@
                   </div>
                 </div>
               </div>
+
                   <validation
                     name="card-cvv"
-                    rules="required"
+                    rules="required|max:4|min:3"
                   >
                     <b-form-group
                       label-class="form-label"
@@ -123,18 +124,15 @@
                         :formatter="formatYear"
                         trim
                       />
-
-
                     </b-form-group>
                   </validation>
-
-
                   <button type="button" class="btn btn-success" @click.prevent="onsubmit">Amount: {{this.$route.params.price}} $ Pay Now</button>
                   <p><span style="color: #e59898" v-if="error!==''">{{error}}</span></p>
 
                 </b-form>
               </validation-observer>
 <!--            </fieldset>-->
+<stripe-checkout > </stripe-checkout>
           </div>
         </div>
       </div>
@@ -142,11 +140,14 @@
   </div>
 </template>
 <script>
-import { StripeElementCard } from '@vue-stripe/vue-stripe';
+import { StripeCheckout } from '@vue-stripe/vue-stripe';
+
 import axios from "axios";
 export default {
+  components:{ StripeCheckout},
   data(){
     return{
+      maxlength:16,
       error:'',
       value:'4',
       card: {

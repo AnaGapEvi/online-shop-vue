@@ -30,7 +30,7 @@
                     type="text"
                     minlength="1"
                     maxlength="10"
-                    placeholder="first name..."
+                    placeholder="Address..."
                     :state="errors[0] ? false : null"
                     trim
                   ></b-form-input>
@@ -79,7 +79,7 @@
                 type="text"
                 minlength="2"
                 maxlength="10"
-                placeholder="Country..."
+                placeholder="country..."
                 :state="errors[0] ? false : null"
                 trim
 

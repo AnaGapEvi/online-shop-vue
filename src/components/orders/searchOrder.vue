@@ -56,7 +56,8 @@ export default {
   color: white;
   background-color: #698d94;
   min-height: 100vh;
-  padding: 20px 50px;
+  padding: 70px 50px;
+
 }
 
 </style>

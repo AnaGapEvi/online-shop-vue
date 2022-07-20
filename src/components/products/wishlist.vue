@@ -89,6 +89,6 @@ h2{
 .wish{
   min-height: 100vh;
   background-color: #343a40;
- padding-top: 15px;
+ padding-top: 70px;
 }
 </style>

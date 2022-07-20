@@ -1,5 +1,5 @@
 <template>
-  <div class="product" style="padding: 50px">
+  <div class="product">
     <div >
       <b-card no-body class="overflow-hidden" style="max-width: 50rem;">
         <b-row no-gutters>
@@ -315,6 +315,7 @@ export default {
   /*height: 100vh;*/
   background-color: #343a40;
   min-height: 100vh;
+  padding: 70px;
   /*justify-content: space-between;*/
   /*align-items: center;*/
   /*color: white;*/

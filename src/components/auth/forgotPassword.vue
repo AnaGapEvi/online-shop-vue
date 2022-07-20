@@ -4,24 +4,86 @@
       <b-row>
         <b-col cols="5" md="8" lg="7" xl="5" class="mx-auto" >
           <h3> Type your Email to reset password  </h3>
+          <validation-observer ref="observer">
             <b-form @submit.prevent="reset">
-              <b-form-group label-class="form-label" label="Email Address" label-for="email" >
-                  <b-form-input id="email"  placeholder="...." v-model="user.email" trim />
+              <validation
+                name="email"
+                rules="required|email"
+              >
+                <b-form-group
+                  label-class="form-label"
+                  label="Email Address"
+                  label-for="email"
+                  slot-scope="{ errors }"
+                  :invalid-feedback="errors[0]"
+                >
+                  <b-form-input
+                    id="email"
+                    v-model="user.email"
+                    :state="errors[0] ? false : null"
+                    trim
+                  />
                 </b-form-group>
-              <b-form-group label-class="form-label" label="Password" label-for="password" >
-                <b-form-input id="password" type="password"  placeholder="...." v-model="user.password" trim />
-              </b-form-group>
-              <b-form-group label-class="form-label" label="Repeat password" label-for="repeatPassword" >
-                <b-form-input id="password" type="password"  placeholder="...." v-model="user.repeat" trim />
-              </b-form-group>
+              </validation>
+              <validation
+                name="password"
+                rules="required|min:8"
+              >
+                <b-form-group
+                  label-class="form-label"
+                  label="Password"
+                  label-for="password"
+                  slot-scope="{ errors }"
+                  :invalid-feedback="errors[0]"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="user.password"
+                    type="password"
+                    :state="errors[0] ? false : null"
+                    trim
+                  />
+                </b-form-group>
+              </validation>
+              <validation
+                name="password"
+                rules="required|min:8"
+              >
+                <b-form-group
+                  label-class="form-label"
+                  label="Password"
+                  label-for="password"
+                  slot-scope="{ errors }"
+                  :invalid-feedback="errors[0]"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="user.repeat"
+                    type="password"
+                    :state="errors[0] ? false : null"
+                    trim
+                  />
+                </b-form-group>
+              </validation>
               <div class="mt-3">
-                <b-button variant="primary" block type="submit" > Reset </b-button>
+                <b-button
+                  variant="primary"
+                  block
+                  type="submit"
+                >
+                  Sign in
+                </b-button>
+
+
               </div>
+              <span style="color: #e59898" v-if="error!==''">{{error}}</span>
+            </b-form>
+          </validation-observer>
               <div>
                 <router-link to="/sign-up" class="d-block small mt-3">Register an Account</router-link>
                 <router-link to="/login" class="d-block small" >Login page</router-link>
               </div>
-            </b-form>
+
         </b-col>
       </b-row>
     </b-container>
@@ -38,7 +100,8 @@ export default {
         email: "",
         password:"",
         repeat:""
-      }
+      },
+      error:''
     }
   },
   methods: {
@@ -57,7 +120,7 @@ export default {
             console.log(e)
           })
       } else{
-        alert('passwor!!!!!')
+        this.error='password does not match'
       }
     }
   }

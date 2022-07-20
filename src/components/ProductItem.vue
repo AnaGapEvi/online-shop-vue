@@ -63,6 +63,10 @@ export default {
 
   },
   mounted() {
+    if(localStorage.getItem('likes')){
+      this.likes = localStorage.getItem('access_token')
+
+    }
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
@@ -97,7 +101,6 @@ export default {
       this.isClicked2 = !this.isClicked2
     },
     addHeart(id){
-      // this.currentHeart  === 'grid' ? this.currentHeart  = '' : this.currentHeart  = 'grid'
       if(this.heartId.includes(id)===false) {
         axios.get('/product/' + id)
           .then((resp) => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="del">
     <h1>Delivered</h1>
     <b-table striped hover :items="items"></b-table>
   </div>
@@ -34,5 +34,8 @@ export default {
 </script>
 
 <style scoped>
+.del{
+  padding: 70px;
 
+}
 </style>

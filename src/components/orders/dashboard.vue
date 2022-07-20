@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dashboard">
       <div class="list">
         <nav-bar class="navbar" ></nav-bar>
 
@@ -47,5 +47,8 @@ export default {
 .navbar{
   width: 25%;
   height: 100vh;
+}
+.dashboard{
+  padding-top: 50px;
 }
 </style>

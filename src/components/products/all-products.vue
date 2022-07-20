@@ -11,7 +11,7 @@
       </b-card>
     </div>
     <div v-else style="display: flex; flex-wrap: wrap">
-      <div  class="overflow-auto" >
+      <div  class="overflow-auto"  @click.prevent="click()" >
         <div Class="d-flex flex-wrap justify-content-center" >
           <b-card style="max-width: 15rem;min-width: 15rem " class="w-20 m-3"  v-for="(product) in products.slice((currentPage-1)*perPage,(currentPage-1)*perPage+perPage)"
                   :value="product.id"
@@ -32,8 +32,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script>
 
@@ -85,8 +83,6 @@ export default {
       this.page=localStorage.getItem('page')
       this.currentPage=this.page;
       return this.products.length
-
-
     }
   },
 
@@ -110,6 +106,9 @@ export default {
       this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
   },
   methods: {
+    click(){
+      window.location.reload()
+    },
     changeColor(){
       this.isLoading = !this.isLoading;
     },
@@ -254,7 +253,7 @@ export default {
 .home{
   background-image: url("https://sbooks.net/wp-content/uploads/2021/10/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg");
   min-height: 100vh;
-  padding:40px;
+  padding:60px;
 }
 .active {
   color:red;

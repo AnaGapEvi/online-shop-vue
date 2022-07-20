@@ -12,7 +12,6 @@
         </b-navbar-nav>
         <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
           <a href="/categories-product/3" style="text-decoration: none; color: #dddddd">Fantasy books</a>
-
         </b-navbar-nav>
     <b-button to="/search-order"> Search Order by number</b-button>
 <!--        <search-order :search="search"></search-order>-->

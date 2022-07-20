@@ -27,6 +27,6 @@ export default {
   z-index: 1;
 }
 .components{
-  padding-top: 50px;
+  /*padding-top: 50px;*/
 }
 </style>

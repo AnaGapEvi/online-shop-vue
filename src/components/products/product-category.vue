@@ -188,7 +188,7 @@ export default {
 .category{
   background-image: url("https://sbooks.net/wp-content/uploads/2021/10/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg");
   min-height: 100vh;
-  padding:40px;
+  padding:70px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

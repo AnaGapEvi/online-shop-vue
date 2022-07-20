@@ -203,8 +203,8 @@ export default {
 
   color: black;
   width: 500px;
-  margin: 50px auto;
-  padding: 30px;
+  margin: 0 auto;
+  padding: 70px;
   /*background-color: rgba(154, 215, 215, 0.87);*/
   border-radius: 20px;
 }

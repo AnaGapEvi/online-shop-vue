@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="cancel">
     <h1>Cancelled</h1>
     <b-table striped hover :items="items"></b-table>
   </div>
@@ -34,5 +34,7 @@ export default {
 </script>
 
 <style scoped>
-
+.cancel{
+  padding: 50px;
+}
 </style>

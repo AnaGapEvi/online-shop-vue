@@ -10,8 +10,8 @@ require ('./components/custom/custom')
 require ('./plugins');
 
 Vue.component('Paginate', Paginate)
-Vue.component('StripeCheckout', StripeCheckout)
-Vue.component('StripeElementCart', StripeElementCard)
+Vue.use(StripeCheckout)
+Vue.use(StripeElementCard)
 
 
 Vue.config.productionTip = false
