@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <h1>My orders</h1>
+  <div class="orders">
+    <div style="display: flex; justify-content: space-between">
+      <h1>My orders</h1>
+      <router-link style="color: black; margin-left: 15px"  to="/search-order"> Search Order by number</router-link>
+    </div>
+
+
     <b-table striped hover :items="items"></b-table>
   </div>
 </template>
@@ -34,5 +39,7 @@ export default {
 </script>
 
 <style scoped>
-
+.orders{
+  padding: 70px;
+}
 </style>

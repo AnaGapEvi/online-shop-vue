@@ -3,43 +3,48 @@
     <b-navbar style="z-index: 1" toggleable="lg" type="dark" variant="dark" class="d-flex justify-content-between w-100  position-fixed text-decoration-none">
       <b-navbar-brand  > <button @click="shoppingPortal" style="border: none; background-color: unset; color: white ">Shopping portal</button></b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      <b-collapse id="nav-collapse"  class="w-100" is-nav>
-        <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-          <a href="/categories-product/1" style="text-decoration: none; color: #dddddd">Adventure books</a>
-        </b-navbar-nav>
-        <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-          <a href="/categories-product/2" style="text-decoration: none; color: #dddddd">Thriller books</a>
-        </b-navbar-nav>
-        <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-          <a href="/categories-product/3" style="text-decoration: none; color: #dddddd">Fantasy books</a>
-        </b-navbar-nav>
-    <b-button to="/search-order"> Search Order by number</b-button>
+      <b-collapse id="nav-collapse"  class="w-100"  is-nav >
+        <div style="display: flex; width: 50%">
+          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
+            <a href="/categories-product/1" style="text-decoration: none; color: #dddddd">Adventure books</a>
+          </b-navbar-nav>
+          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
+            <a href="/categories-product/2" style="text-decoration: none; color: #dddddd">Thriller books</a>
+          </b-navbar-nav>
+          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
+            <a href="/categories-product/3" style="text-decoration: none; color: #dddddd">Fantasy books</a>
+          </b-navbar-nav>
+        </div>
+
+
 <!--        <search-order :search="search"></search-order>-->
         <!--        </b-form>-->
-        <b-navbar-nav class="d-flex justify-content-evenly" >
-         <b-nav-item href="/wishlist"> <b-icon icon="heart" aria-hidden="true"></b-icon>  </b-nav-item>
-         <b-nav-item href="#"><router-link to="/shopping-cart"><b-icon icon="cart3" aria-hidden="true" style="color: white" ></b-icon> </router-link> </b-nav-item>
-        </b-navbar-nav>
+        <div style="display: flex; width: 45%; justify-content: flex-end; align-items: center">
+          <b-navbar-nav class="d-flex justify-content-evenly" >
+            <b-nav-item href="/wishlist"> <b-icon icon="heart" aria-hidden="true"></b-icon>  </b-nav-item>
+            <b-nav-item href="#"><router-link to="/shopping-cart"><b-icon icon="cart3" aria-hidden="true" style="color: white" ></b-icon> </router-link> </b-nav-item>
+          </b-navbar-nav>
           <div v-if="email === ''" class="d-flex justify-content-between align-items-center">
-             <b-nav-item :to="{ name: 'SignUp' }"> Sign up </b-nav-item>
-             <b-nav-item :to="{ name: 'Login' }"> Sign in </b-nav-item>
+            <b-nav-item :to="{ name: 'SignUp' }"> Sign up </b-nav-item>
+            <b-nav-item :to="{ name: 'Login' }"> Sign in </b-nav-item>
           </div>
           <b-nav-item-dropdown class="w-20 " v-if="email !== ''" style="color: white"  right>
             <!-- Using 'button-content' slot -->
             <template #button-content class="d-flex align-items-center" >
-                <em style="color: white">{{email}}</em>
+              <em style="color: white">{{email}}</em>
             </template>
 
             <b-dropdown-item v-if="role ==='admin'" href="#"><router-link to="/dashboard"> My Account</router-link></b-dropdown-item>
             <b-dropdown-item v-if="role ==='user'" href="#"><router-link to="/my-profile"> My Account</router-link></b-dropdown-item>
 
             <b-dropdown-item href="#">
-                <a href="/login" @click.prevent="logout()" >
-                  Logout
-                </a>
+              <a href="/login" @click.prevent="logout()" >
+                Logout
+              </a>
             </b-dropdown-item>
           </b-nav-item-dropdown>
-        <b-navbar-nav v-if="role!==''" style="color: #dddddd" href="/orders"><router-link style="text-decoration: none; color: #dddddd" to="/user-order"> Orders</router-link></b-navbar-nav>
+          <b-navbar-nav v-if="role!==''" style="color: #dddddd" href="/orders"><router-link style="text-decoration: none; color: #dddddd" to="/user-order"> Orders</router-link></b-navbar-nav>
+        </div>
 
       </b-collapse>
     </b-navbar>

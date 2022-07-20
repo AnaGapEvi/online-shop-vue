@@ -60,8 +60,6 @@ export default {
       this.count=''
       return num
     }
-
-
   },
 
   mounted() {
@@ -94,15 +92,17 @@ export default {
         })
     },
     toggleIsClicked: function (id) {
-      this.isClicked = true
-
+      this.isClicked = !this.isClicked
     },
+
     changeColor(){
-      this.isClicked2 = true
+      this.isClicked2 = !this.isClicked2
       if(this.isClicked===false){
         this.likes = this.likes.filter((e)=>e.id !== id )
+
       }
     },
+
     addHeart(id){
       if(this.heartId.includes(id)===false) {
         axios.get('/product/' + id)
@@ -126,8 +126,11 @@ export default {
         console.log('error')
       }
     },
+
     addLike(id){
       if(this.likes.includes(id)===false){
+        // this.changeColor(id)
+
         axios.get('/like-product/'+id)
           .then((resp)=> {
             this.likes=JSON.parse(localStorage.getItem('likes')) || []
@@ -141,7 +144,6 @@ export default {
             console.log(e)
           })
       } else{
-        // this.changeColor()
         // this.isClicked2 =true
         console.log('that product is liked')
       }

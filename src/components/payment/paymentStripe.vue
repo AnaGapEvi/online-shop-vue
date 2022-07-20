@@ -67,6 +67,7 @@
                         id="number"
                         v-model="card.card_number"
                         :state="errors[0] ? false : null"
+                        :formatter="formatCard"
                         :maxlength="maxlength"
                         trim
                       />
@@ -114,19 +115,21 @@
                       label-for="Card cvv"
                       aria-placeholder="****"
                       slot-scope="{ errors }"
+
                       :invalid-feedback="errors[0]"
                     >
                       <b-form-input
                         type="number"
                         id="number"
+                        v-validate="{ required: true, min: 3 }"
                         v-model="card.cvv"
                         :state="errors[0] ? false : null"
-                        :formatter="formatYear"
+                        :formatter="formatCVV"
                         trim
                       />
                     </b-form-group>
                   </validation>
-                  <button type="button" class="btn btn-success" @click.prevent="onsubmit">Amount: {{this.$route.params.price}} $ Pay Now</button>
+                  <button type="button" style="margin-top: 15px" class="btn btn-success" @click.prevent="onsubmit">Amount: {{this.$route.params.price}} $ Pay Now</button>
                   <p><span style="color: #e59898" v-if="error!==''">{{error}}</span></p>
 
                 </b-form>
@@ -143,6 +146,7 @@
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
 
 import axios from "axios";
+
 export default {
   components:{ StripeCheckout},
   data(){
@@ -162,8 +166,11 @@ export default {
     }
   },
   methods: {
-    formatYear(e){
-      return String(e).substring(0,4);
+    formatCVV(e){
+      return String(e).substring(0,3);
+    },
+    formatCard(e){
+      return String(e).substring(0,16);
     },
     onsubmit(){
       if(this.card.expiry_year !== null && this.card.expiry_month !== null && this.card.card_number !== null && this.card.cvv !== null && this.email !== null){
@@ -177,7 +184,12 @@ export default {
       } else {
         this.error="all fields is required"
       }
-    }
+    },
   }
 }
 </script>
+<style scoped>
+.container{
+  padding: 70px;
+}
+</style>

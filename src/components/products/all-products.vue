@@ -238,29 +238,6 @@ export default {
         console.log('error')
       }
     },
-    // addLike(id,i){
-    //   // this.currentLike === 'grid' ? this.currentLike = '' : this.currentLike = 'grid'
-    //   console.log(i)
-    //
-    //   if(this.likes.includes(id)===false){
-    //     axios.get('/like-product/'+id)
-    //       .then((resp)=> {
-    //           this.likes=JSON.parse(localStorage.getItem('likes')) || []
-    //           this.likes.push(resp.data.id)
-    //
-    //         this.count = resp.data.likes
-    //           localStorage.setItem('likes', JSON.stringify([...this.likes]))
-    //           window.location.reload()
-    //
-    //       })
-    //       .catch((e) =>{
-    //         console.log(e)
-    //       })
-    //   } else{
-    //   console.log('error')
-    // }
-    //
-    // }
   }
 }
 </script>

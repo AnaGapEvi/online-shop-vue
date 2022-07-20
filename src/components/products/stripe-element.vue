@@ -1,39 +1,43 @@
 <template>
-  <stripe-checkout
-    ref="checkoutRef"
-    :pk="publishableKey"
-    :items="items"
-    :successUrl="successUrl"
-    :cancelUrl="cancelUrl"
-  >
-    <template slot="checkout-button">
-      <button @click="checkout">Shutup and take my money!</button>
-    </template>
-  </stripe-checkout>
+  <div class="py-8 flex justify-center">
+    <stripe-checkout
+      ref="checkoutRef"
+      mode="payment"
+      :pk="publishableKey"
+      :sessionId="sessionId"
+    />
+    <button class=" bg-blue-500 px-2 py-1 rounded text-white" @click="submit">Pay now!</button>
+  </div>
 </template>
 
 <script>
-import { VueStripeCheckout } from 'vue-stripe-checkout';
+import { StripeCheckout  } from "@vue-stripe/vue-stripe";
+import axios from "axios";
 export default {
   components: {
-    VueStripeCheckout
+    StripeCheckout ,
   },
-  data: () => ({
-    loading: false,
-    publishableKey: process.env.PUBLISHABLE_KEY,
-    items: [
-      {
-        sku: 'sku_FdQKocNoVzznpJ',
-        quantity: 1
-      }
-    ],
-    successUrl: 'your-success-url',
-    cancelUrl: 'your-cancel-url',
-  }),
+  data() {
+    return {
+      publishableKey: "pk_test_51KtYynFJTg08EEU2sYHLN0LKrnZTuJCazai8jmokQ2096V7IXYjX2XsdGi7xh5jOgSCz5nnn7YfJS5afTtEHRSxk00EUEcmhsj",
+      sessionId: null,
+    };
+  },
+  mounted() {
+    console.log("Component mounted.");
+    this.getSession()
+  },
   methods: {
-    checkout () {
+    getSession() {
+      axios.get('getSession').then(res => {
+        this.sessionId = res.data.id
+      }).catch(err => {
+
+      });
+    },
+    submit () {
       this.$refs.checkoutRef.redirectToCheckout();
     }
   }
-}
+};
 </script>

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {ValidationProvider, ValidationObserver, extend} from "vee-validate";
-import {required, email, min, max, alpha_spaces} from "vee-validate/dist/rules";
+import {required, email, min, max, alpha_spaces, length} from "vee-validate/dist/rules";
 import forgotPassword from "../components/auth/forgotPassword";
 extend("required", {
   ...required,
@@ -16,6 +16,7 @@ extend("email", {
 // });
 extend("min", min);
 extend("max", max);
+extend("length",length);
 extend("alpha_spaces", {
   ...alpha_spaces,
   message: "Use only syllables and spaces"

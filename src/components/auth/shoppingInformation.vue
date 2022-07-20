@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shop">
     <b-card bg-variant="light">
 
 
@@ -103,7 +103,7 @@
                 v-model="form.zip"
                 minlength="2"
                 maxlength="15"
-                type="text"
+                type="number"
                 placeholder="zip..."
                 :state="errors[0] ? false : null"
                 trim
@@ -132,6 +132,7 @@
                 minlength="5"
                 maxlength="20"
                 placeholder="telephone..."
+                :formatter=" phoneValidator"
                 :state="errors[0] ? false : null"
                 trim
 
@@ -158,8 +159,8 @@ export default {
         form:{
           address:'',
           city:'',
-          zip:'',
-          telephone:'',
+          zip:Number,
+          telephone:Number,
           country:''
         },
         error:''
@@ -180,12 +181,21 @@ export default {
     },
     back(){
         window.history.go(-1)
-      },
-
+    },
+    phoneValidator () {
+      let phone = /^[2-9]\d{2}-\d{3}-\d{4}$/;
+      if (this.phone.value.match(phone)) {
+        console.log('true')
+      } else {
+        console.log('false')
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
-
+.shop{
+  padding: 70px;
+}
 </style>
