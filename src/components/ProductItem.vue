@@ -1,12 +1,12 @@
 <template>
   <div style="max-width: 100%">
     <button style="border: none; background-color: white; margin-right: 125px"  @click="addHeart(productItem.id)">
-      <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" @click="toggleIsClicked(productItem.id)">
+      <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" >
         >   </b-icon>
     </button>
 
     <button style="border: none; background-color: white" @click="addLike(productItem.id)">
-      <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null" @click="changeColor(productItem.id)"
+      <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null"
       ></b-icon>
     </button>
     <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+productItem.id}">
@@ -50,7 +50,8 @@ export default {
         quantity:1,
         product_id:null
       },
-      count:''
+      count:'',
+      liked:'',
     }
   },
   computed: {
@@ -63,18 +64,31 @@ export default {
   },
 
   mounted() {
-    if(localStorage.getItem('likes')){
-      this.likes = localStorage.getItem('likes')
-      console.log(this.likes)
-    }
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
-    this.my = localStorage.getItem('access_token')
     this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
+    this.my = localStorage.getItem('access_token')
     this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
     this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+
+    if(this.likes !== null){
+      this.likes.forEach(e=> {
+        if (e===this.productItem.id){
+          this.changeLike(this.productItem.id)
+        }
+      })
+    }
+
+    if(this.heartId !== null){
+      this.heartId.forEach(e=> {
+        if (e===this.productItem.id){
+          this.changeHeart(this.productItem.id)
+        }
+      })
+    }
   },
+
   methods: {
     add(id){
       this.card.product_id = id
@@ -82,7 +96,6 @@ export default {
         .then((resp)=> {
           if(resp){
             return resp.data
-            // this.$router.push({name: "Home"})
           } else {
             console.log('this reviews not found')
           }
@@ -91,20 +104,32 @@ export default {
           this.$router.push({name: "Login"})
         })
     },
-    toggleIsClicked: function (id) {
+    changeHeart: function (id) {
       this.isClicked = !this.isClicked
+
+      if(this.isClicked===false){
+        this.hearts = this.hearts.filter((e)=>e !== id )
+        // this.hearts = JSON.parse(localStorage.getItem('hearts'))
+        // localStorage.setItem('hearts', JSON.stringify(this.hearts))
+        // this.heartId = this.heartId.filter((e)=>e !== id )
+        // localStorage.setItem('heartId', JSON.stringify(this.heartId))
+
+        // localStorage.setItem('likes', this.likes)
+      }
     },
 
-    changeColor(){
+    changeLike(id){
       this.isClicked2 = !this.isClicked2
-      if(this.isClicked===false){
+      if(this.isClicked2===false){
         this.likes = this.likes.filter((e)=>e.id !== id )
+        localStorage.setItem('likes', JSON.stringify(this.likes))
 
       }
     },
 
     addHeart(id){
       if(this.heartId.includes(id)===false) {
+        this.changeHeart(id)
         axios.get('/product/' + id)
           .then((resp) => {
             if (resp) {
@@ -122,30 +147,46 @@ export default {
             console.log(e)
           })
       } else {
+        this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+        this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
 
-        console.log('error')
+        this.heartId = this.heartId.filter(e => e !== id)
+        this.hearts = this.hearts.filter(e => e.id !== id)
+        this.changeHeart(id)
+        localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
+        localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
+
       }
     },
-
     addLike(id){
-      if(this.likes.includes(id)===false){
-        // this.changeColor(id)
-
+      if(!this.likes.includes(id)){
+        this.changeLike(id)
         axios.get('/like-product/'+id)
           .then((resp)=> {
             this.likes=JSON.parse(localStorage.getItem('likes')) || []
             this.likes.push(resp.data.id)
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            // window.location.reload()
-            // this.count =''
           })
           .catch((e) =>{
             console.log(e)
           })
       } else{
-        // this.isClicked2 =true
-        console.log('that product is liked')
+
+        axios.get('/like-product-diz/'+id)
+          .then((resp)=> {
+            this.likes=JSON.parse(localStorage.getItem('likes')) || []
+            this.likes = this.likes.filter(e => e !== id)
+            this.changeLike(id)
+            // this.likes.push(resp.data.id)
+            this.count = resp.data.likes
+            localStorage.setItem('likes', JSON.stringify([...this.likes]))
+            // console.log(JSON.parse(localStorage.getItem('likes')));
+          })
+          .catch((e) =>{
+            console.log(e)
+          })
+
       }
 
     }

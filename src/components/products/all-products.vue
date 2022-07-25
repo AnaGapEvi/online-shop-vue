@@ -115,8 +115,6 @@ export default {
     click(){
 
         window.location.reload()
-
-
     },
     // resetScrollTop: function () {
     //   this.$refs.modalview.scrollTop = 0
@@ -175,7 +173,6 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('/shopping-cart').then((res) => {
           this.cart = res.data
-          console.log(this.cart)
           return resolve(true);
         }).catch((error) => {
           return reject(error)

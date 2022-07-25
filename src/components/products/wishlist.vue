@@ -48,7 +48,6 @@ export default {
   },
   methods:{
     deleteItem(id){
-      console.log(id)
       this.wishlist = this.wishlist.filter((e)=>e.id !== id )
       this.heartId = this.heartId.splice(id, 1)
       localStorage.setItem('hearts', JSON.stringify(this.wishlist))

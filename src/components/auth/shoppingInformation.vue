@@ -16,7 +16,6 @@
                   :invalid-feedback="errors[0]"
                 >
                   <b-select  style="width: 100%; padding: 10px" @change="onChange($event)">
-                    <option>Country</option>
                     <option v-for="country in countries" >
                       {{country.country}}
                     </option>
@@ -36,7 +35,6 @@
             :invalid-feedback="errors[0]"
           >
             <b-select style="width: 100%; padding: 10px" @change="onChangeCity($event)">
-              <option>City</option>
               <option v-for="city in cities" >
                 {{city}}
               </option>
