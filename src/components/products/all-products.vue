@@ -20,9 +20,8 @@
                 <product-item :product="product"></product-item>
           </b-card>
         </div>
-        <p @click="moveTo">
+        <p>
           <b-pagination
-
             v-model="currentPage"
             :total-rows="rows"
             :per-page="perPage"
@@ -110,11 +109,7 @@ export default {
       this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
       this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
   },
-  methods: {
-    click(){
-        window.location.reload()
-    },
-
+  methods: { 
     moveTo () {
       window.scrollTo(0,0);
 
