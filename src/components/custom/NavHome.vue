@@ -4,21 +4,11 @@
       <b-navbar-brand  > <button @click="shoppingPortal" style="border: none; background-color: unset; color: white ">Shopping portal</button></b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse"  class="w-100"  is-nav >
-        <div style="display: flex; width: 50%">
+        <div style="display: flex; width: 50%"  v-for="category in categories" :key="category.id">
           <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-            <a href="/categories-product/1" style="text-decoration: none; color: #dddddd">Adventure books</a>
-          </b-navbar-nav>
-          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-            <a href="/categories-product/2" style="text-decoration: none; color: #dddddd">Thriller books</a>
-          </b-navbar-nav>
-          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
-            <a href="/categories-product/3" style="text-decoration: none; color: #dddddd">Fantasy books</a>
+            <router-link :to="{ path: '/categories-product/'+ category.id}" >Adventure books</router-link>
           </b-navbar-nav>
         </div>
-
-
-<!--        <search-order :search="search"></search-order>-->
-        <!--        </b-form>-->
         <div style="display: flex; width: 45%; justify-content: flex-end; align-items: center">
           <b-navbar-nav class="d-flex justify-content-evenly" >
             <b-nav-item href="/wishlist"> <b-icon icon="heart" aria-hidden="true"></b-icon>  </b-nav-item>
@@ -43,7 +33,7 @@
               </a>
             </b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-navbar-nav v-if="role!==''" style="color: #dddddd" href="/orders"><router-link style="text-decoration: none; color: #dddddd" to="/user-order"> Orders</router-link></b-navbar-nav>
+          <b-navbar-nav v-if="role !== ''" style="color: #dddddd" href="/orders"><router-link style="text-decoration: none; color: #dddddd" to="/user-order"> Orders</router-link></b-navbar-nav>
         </div>
 
       </b-collapse>
@@ -71,22 +61,17 @@ export default {
 
    }
  },
-  // watch: {
-  //   keyword(after, before) {
-  //     this.getResults();
-  //   }
-  // },
-  mounted() {
-   if (localStorage.getItem('access_token')){
-     this.getMy()
-   }
 
+  created() {
+   if (localStorage.getItem('access_token')){
+             this.getMy()
+   }
     this.getCategories()
     this.heart = JSON.parse(localStorage.getItem('hearts'))
   },
 
   methods: {
-     getCategories() {
+    getCategories() {
         return new Promise((resolve, reject) => {
           axios.get('categories').then((res) => {
             this.categories = res.data
@@ -111,8 +96,10 @@ export default {
     logout(){
       axios.get('/logout').then(result => {
         localStorage.removeItem('access_token');
-        this.$router.push({name: "HelloWorld"})
-        window.location.reload()
+        this.email=''
+        this.role=''
+        // this.$router.push({name: "HelloWorld"})
+        // window.location.reload()
 
       }).catch(error => {
         return error
@@ -124,16 +111,9 @@ export default {
       // this.page = localStorage.getItem('page')
       localStorage.setItem('page', this.page)
       this.$router.push({ name: 'HelloWorld' })
-      window.location.reload()
+      // window.location.reload()
     },
 
-    // getResults() {
-    //   this.axios.get('/livesearch', { params: { keyword: this.keyword } })
-    //     .then((res) => {
-    //       this.Books = res.data
-    //       // this.$router.push({name: 'SearchOrder'})
-    //   }).catch(error => {});
-    // },
     searchOrderNum(){
       alert(typeof Number(this.search))
             this.$router.push({name: 'SearchOrder'})

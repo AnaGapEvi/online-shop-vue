@@ -23,7 +23,6 @@ export default {
   },
   created() {
     this.getUser()
-    console.log(this.users)
   },
   methods: {
     getUser() {

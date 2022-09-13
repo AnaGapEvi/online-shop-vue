@@ -186,7 +186,6 @@ export default {
   },
   methods:{
   create_user(){
-
       if(this.form.password === this.form.repeatPassword){
         this.birthday = new Date(this.form.birthday);
         this.mount = Date.now() - this.birthday.getTime();
@@ -206,7 +205,6 @@ export default {
         } else {
           this.errore='Your age does not qualify  for registration 10+'
         }
-
       } else {
         this.form.password = ""
         this.form.repeatPassword = ""

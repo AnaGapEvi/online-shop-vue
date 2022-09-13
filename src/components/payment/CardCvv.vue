@@ -27,7 +27,6 @@ export default {
     },
   },
   mounted () {
-    // Style Object documentation here: https://stripe.com/docs/js/appendix/style
     const style = {
       base: {
         color: 'black',
@@ -59,13 +58,10 @@ export default {
     async createToken () {
       const { token, error } = await this.$stripe.createToken(this.cardNumber);
       if (error) {
-        // handle error here
         document.getElementById('card-error').innerHTML = error.message;
         return;
       }
       console.log(token);
-      // handle the token
-      // send it to your server
     },
   }
 };

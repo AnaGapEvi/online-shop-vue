@@ -111,9 +111,8 @@ export default {
           .then((resp) => {
             if(resp){
               this.$router.push({name: "Login"});
-              console.log(resp.data)
             } else {
-              console.log('you not have a account')
+              this.error='you not have a account'
             }
           })
           .catch((e) => {

@@ -3,9 +3,7 @@
     <div class="child">
       <img width="300" height="300" src="" alt="">
       <h4>Congratulations you are now fully registered </h4>
-
       <router-link to="Login">Login</router-link>
-
     </div>
   </div>
 </template>

@@ -52,7 +52,7 @@
     </div>
 
     <div  style="width: 100%">
-      <div class="mt-3 bg-light"   style="width: 50rem; padding: 0; " v-for="review in reviews">
+      <div class="mt-3 bg-light"   style="width: 50rem; padding: 0; " v-for="review in reviews" :key="review.id">
         <div>
            <p>NAME: {{review.user.first_name}} </p>
            <p>Comment: {{review.comment}} </p>
@@ -63,7 +63,7 @@
         <hr>
         <div class="col-sm-2">
           <div class="rating-stars">
-              <span v-for="iteration in 5" :class="{'far fa-star':iteration<(parseInt(review.stars)+1)}">
+              <span v-for="iteration in 5" :key="iteration" :class="{'far fa-star':iteration<(parseInt(review.stars)+1)}">
                  <i class="fas fa-star"></i>
               </span>
           </div>
@@ -109,24 +109,22 @@ export default {
       heartId:'',
       hearts:[],
       likes:[],
-      like:''
+      like:'',
+      isAuth:false
     }
   },
-  computed:{
-    // this.addLike();
-  },
   mounted() {
+    console.log(this.$isAuth);
     this.getProduct()
     this.getReviews()
     this.getMy()
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
-    console.log(this.reviews)
 
-      if(localStorage.getItem('access_token')){
+    if(localStorage.getItem('access_token')){
         this.token=localStorage.getItem('access_token')
-      }
+    }
       this.my = localStorage.getItem('access_token')
       this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
       this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
@@ -151,18 +149,14 @@ export default {
     back(){
       window.history.go(-1)
     },
-    toggleIsClicked: function (id) {
+    toggleIsClicked(id) {
       this.isClicked = !this.isClicked
       if(this.isClicked===false){
         this.likes = this.likes.filter((e)=>e.id !== id )
       }
     },
-    // changeColor(){
-    //   this.isClicked2 = !this.isClicked2
-    // },
-    changeHeart: function (id) {
+    changeHeart(id) {
       this.isClicked = !this.isClicked
-
       if(this.isClicked===false){
         this.hearts = this.hearts.filter((e)=>e !== id )
       }
@@ -226,22 +220,20 @@ export default {
             this.likes=JSON.parse(localStorage.getItem('likes')) || []
             this.likes = this.likes.filter(e => e !== id)
             this.changeLike(id)
-            // this.likes.push(resp.data.id)
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            // console.log(JSON.parse(localStorage.getItem('likes')));
           })
           .catch((e) =>{
             console.log(e)
           })
-
       }
-
     },
     getMy(){
       return new Promise((resolve, reject) => {
         axios.get('/me')
           .then(result => {
+
+            this.isAuth=true
             this.role = result.data.user.role
             this.id = result.data.user.id
             resolve(true)
@@ -274,7 +266,6 @@ export default {
       return new Promise((resolve, reject) => {
         axios.get('reviews/'+ this.$route.params.id).then((res) => {
           this.reviews = res.data
-          console.log(this.reviews)
           return resolve(true);
         }).catch((error) => {
           return reject(error)
@@ -285,32 +276,26 @@ export default {
       axios.delete('/delete-review/'+id)
         .then((resp)=> {
           if(resp){
-            window.location.reload()
-            // this.$router.push({name: "Home"})
+            let i = this.reviews.map(data => data.id).indexOf(id)
+             this.reviews.splice(i, 1)
           } else {
-            console.log('this reviews not found')
+            this.error = 'this reviews not found'
           }
         })
     },
     editReview(id){
-      console.log(id,this.selectedReview);
       axios.put('/update-review/'+id, this.selectedReview)
         .then((resp)=> {
           if(resp){
-            console.log(resp.data)
-
-            // this.reviews = resp.data
-            // console.log(this.reviews)
+              this.reviews = resp.data
           } else {
             console.log('this reviews not found')
           }
         })
     },
     openModal(id) {
-      console.log(id)
       this.rev = this.reviews.filter((e)=>e.id === id )
       this.selectedReview = this.rev[0]
-      console.log(this.selectedReview)
       this.$bvModal.show("modal-1");
     },
     formSubmit(){
@@ -318,6 +303,7 @@ export default {
         .then((resp)=> {
           if(resp){
             this.products=this.reviews
+
             window.location.reload()
           }
           else {
@@ -326,12 +312,12 @@ export default {
         }).catch((e) =>{
           if(!localStorage.getItem("access_token") ){
               this.error='Go to login or registration'
-          }else{
-            this.error='fill in all fields'
-            console.log(e)
-
+          } else if(this.rate.comment==='' && this.rate.value===''){
+              this.error='fill in all fields'
           }
-          // window.location.reload()
+          else{
+            this.error ='you have a comment'
+          }
         })
     },
     add(id){
@@ -340,9 +326,8 @@ export default {
         .then((resp)=> {
           if(resp){
             return resp.data
-            // this.$router.push({name: "Home"})
           } else {
-            console.log('this reviews not found')
+            this.error='this reviews not found'
           }
         })
         .catch((e) =>{

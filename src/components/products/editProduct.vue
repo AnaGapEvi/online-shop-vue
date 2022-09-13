@@ -161,7 +161,6 @@ export default {
     },
     formSubmit(e) {
         axios.put('/edit-product/'+this.$route.params.id , this.product)
-
         .then((response) => {
             if(response){
               this.$router.push({name: "Products"})

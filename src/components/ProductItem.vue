@@ -71,7 +71,6 @@ export default {
     this.my = localStorage.getItem('access_token')
     this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
     this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
-
     if(this.likes !== null){
       this.likes.forEach(e=> {
         if (e===this.productItem.id){
@@ -79,7 +78,6 @@ export default {
         }
       })
     }
-
     if(this.heartId !== null){
       this.heartId.forEach(e=> {
         if (e===this.productItem.id){
@@ -88,7 +86,6 @@ export default {
       })
     }
   },
-
   methods: {
     add(id){
       this.card.product_id = id
@@ -104,17 +101,11 @@ export default {
           this.$router.push({name: "Login"})
         })
     },
-    changeHeart: function (id) {
+    changeHeart(id) {
       this.isClicked = !this.isClicked
 
       if(this.isClicked===false){
         this.hearts = this.hearts.filter((e)=>e !== id )
-        // this.hearts = JSON.parse(localStorage.getItem('hearts'))
-        // localStorage.setItem('hearts', JSON.stringify(this.hearts))
-        // this.heartId = this.heartId.filter((e)=>e !== id )
-        // localStorage.setItem('heartId', JSON.stringify(this.heartId))
-
-        // localStorage.setItem('likes', this.likes)
       }
     },
 
@@ -178,10 +169,8 @@ export default {
             this.likes=JSON.parse(localStorage.getItem('likes')) || []
             this.likes = this.likes.filter(e => e !== id)
             this.changeLike(id)
-            // this.likes.push(resp.data.id)
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            // console.log(JSON.parse(localStorage.getItem('likes')));
           })
           .catch((e) =>{
             console.log(e)

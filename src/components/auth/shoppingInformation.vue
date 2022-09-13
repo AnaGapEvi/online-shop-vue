@@ -172,23 +172,18 @@ export default {
       return String(e).substring(0,15);
     },
     onChange(event) {
-      console.log(event)
       this.form.country=event
       this.city= this.countries.filter((e)=>e.country == this.form.country )
       this.cities=this.city[0].cities
     },
     onChangeCity(event){
-      console.log(event)
       this.form.city=event
-      console.log(this.form.city)
     },
-
     country(){
       fetch('https://countriesnow.space/api/v0.1/countries')
         .then(response => response.json())
         .then(data => {
           this.countries = data.data
-
       })
     }
   }

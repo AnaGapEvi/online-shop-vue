@@ -1,7 +1,7 @@
 <template>
   <div class="wish">
       <h2 >Wishlist</h2>
-      <div class="list" style="display: flex;justify-content: space-between; width: 500px " v-for="item in wishlist">
+      <div class="list" style="display: flex;justify-content: space-between; width: 500px " v-for="item in wishlist" :key="item.id">
         <div>
           <p>{{ item.name }}</p>
           <p> Price: {{ item.price}}$</p>
@@ -58,6 +58,7 @@ export default {
       axios.post('/add-card', this.card)
         .then((resp)=> {
           if(resp){
+
             this.wishlist = this.wishlist.filter((e)=>e.id !== id )
             localStorage.setItem('hearts', JSON.stringify(this.wishlist))
             return resp.data

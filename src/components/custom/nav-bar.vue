@@ -49,19 +49,13 @@ export default {
     getCategories() {
       return new Promise((resolve, reject) => {
         axios.get('categories').then((res) => {
-          console.log(res)
           this.categories = res.data
-          console.log(this.categories)
           return resolve(true);
         }).catch((error) => {
           return reject(error)
         })
       })
-
     },
-    reload(){
-      window.location.reload()
-    }
   }
 }
 </script>

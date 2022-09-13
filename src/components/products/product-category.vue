@@ -42,6 +42,7 @@ export default {
       // count:'',
       isClicked: false,
       isClicked2: false,
+      router: this.$route.params.id
     }
   },
   computed: {
@@ -53,10 +54,17 @@ export default {
         num = this.count
         this.count=''
         return num
-      }
+    },
+    catId () {
+      return this.$route.params.id
+    }
+  },
+  created(){
+    this.getProduct()
+
   },
   mounted() {
-    this.getProduct()
+    console.log('mounted', this.router);
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
@@ -72,8 +80,9 @@ export default {
   },
   methods: {
     getProduct() {
+      console.log(this.catId);
       return new Promise((resolve, reject) => {
-        axios.get('/categories-product/' + this.$route.params.id).then((res) => {
+        axios.get('/categories-product/' + this.catId).then((res) => {
           this.products = res.data
           return resolve(true);
         }).catch((error) => {
@@ -87,14 +96,14 @@ export default {
           if(resp){
             // this.$router.push({name: "Home"})
           } else {
-            console.log('this reviews not found')
+            this.error='this reviews not found'
           }
         })
         .catch((e) =>{
-          console.log(e)
+          this.error=e.response.data.message
         })
     },
-    searchProducts: function()
+    searchProducts()
     {
       if(this.productSearch == '')
       {
@@ -120,7 +129,7 @@ export default {
             return resp.data
             // this.$router.push({name: "Home"})
           } else {
-            console.log('this reviews not found')
+            this.error='this reviews not found'
           }
         })
         .catch((e) =>{
@@ -128,7 +137,7 @@ export default {
         })
     },
 
-    toggleIsClicked: function (id) {
+    toggleIsClicked(id) {
       this.isClicked = !this.isClicked
       if(this.isClicked===false){
         this.likes = this.likes.filter((e)=>e.id !== id )
@@ -149,14 +158,14 @@ export default {
               localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
               localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
             } else {
-              console.log('this reviews not found')
+              this.error='this reviews not found'
             }
           })
           .catch((e) => {
-            console.log(e)
+            this.error=e.response.data.message
           })
       } else {
-        console.log('error')
+        this.error='error'
       }
     },
     addLike(id){
@@ -167,15 +176,12 @@ export default {
             this.likes.push(resp.data.id)
             this.count = resp.data.likes
             localStorage.setItem('likes', JSON.stringify([...this.likes]))
-            window.location.reload()
-            // this.count =''
           })
           .catch((e) =>{
-            console.log(e)
+           this.error =e.response.data.message
           })
       } else{
-        // this.isClicked2 =true
-        console.log('error')
+        this.error =e.response.data.message
       }
 
     },

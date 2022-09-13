@@ -20,7 +20,7 @@
         </b-nav-item-dropdown>
         <b-nav-item href=""><router-link to="/order-reports">REPORTS</router-link></b-nav-item>
         <b-nav-item-dropdown text="Reports" right>
-          <<router-link to="/order-reports">REPORTS</router-link>
+          <router-link to="/order-reports">REPORTS</router-link>
 <!--          <b-dropdown-item href="/order-reports">##</b-dropdown-item>-->
         </b-nav-item-dropdown>
         <router-link to="/registered-users">Registered users</router-link>
@@ -48,9 +48,7 @@ export default {
     getCategories() {
       return new Promise((resolve, reject) => {
         axios.get('categories').then((res) => {
-          console.log(res)
           this.categories = res.data
-          console.log(this.categories)
           return resolve(true);
         }).catch((error) => {
           return reject(error)

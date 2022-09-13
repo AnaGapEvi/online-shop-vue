@@ -134,8 +134,7 @@
 
                 </b-form>
               </validation-observer>
-<!--            </fieldset>-->
-<stripe-checkout > </stripe-checkout>
+              <stripe-checkout > </stripe-checkout>
           </div>
         </div>
       </div>
@@ -177,9 +176,9 @@ export default {
         axios.post('/charge',{card: this.card, amount: this.amount, description: this.description})
           .then(function(data){
             alert('Your payment is complete!')
-            this.$router.push({name: "HelloWorld"})
+            this.$router.push({path: "/user-order"})
           }).catch(error => {
-          // this.error="all fields is required"
+          this.error=error.response
         })
       } else {
         this.error="all fields is required"

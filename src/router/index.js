@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/HelloWorld'
 import AllProd from "../components/AllProducts";
 import HelloWorld from '@/components/products/all-products'
 import auth from "../components/auth/auth";
@@ -12,11 +11,6 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'Hello',
-    //   component: Hello,
-    // },
     {
       path: '/all',
       name:' AllProd',

@@ -195,10 +195,9 @@ export default {
           .then((resp) => {
             resp.data
             this.$router.push({name: "MyProfile"})
-            console.log(resp.data)
           })
           .catch((e) => {
-              console.log(e)
+              return e
             }
           )
       } else {

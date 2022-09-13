@@ -78,7 +78,8 @@ export default {
       page: 1,
       isLoading: true,
       className:'',
-      moveToDown:false
+      moveToDown:false,
+      error:''
     }
   },
   computed: {
@@ -93,9 +94,7 @@ export default {
   },
 
   created() {
-
     this.getProduct()
-    console.log(this.products)
     if (localStorage.getItem('page')){
       this.page=localStorage.getItem('page')
     }
@@ -113,29 +112,13 @@ export default {
   },
   methods: {
     click(){
-
         window.location.reload()
     },
-    // resetScrollTop: function () {
-    //   this.$refs.modalview.scrollTop = 0
-    // },
+
     moveTo () {
       window.scrollTo(0,0);
 
-
-      // let to = this.moveToDown
-      //
-      //   ? this.$refs.description.offsetTop - 700  : 0
-      //
-      // window.scroll({
-      //   top: to,
-      //   left: 0,
-      //   behavior: 'smooth'
-      // })
-      //
-      // this.moveToDown = !this.moveToDown
     },
-
     changeColor(){
       this.isLoading = !this.isLoading;
     },
@@ -160,7 +143,6 @@ export default {
     getProduct() {
       return new Promise((resolve, reject) => {
         axios.get('products').then((res) => {
-
           this.products = res.data
           this.originalProducts = this.products;
           return resolve(true);
@@ -181,7 +163,6 @@ export default {
     },
     add(id){
       this.card.product_id = id
-
         axios.post('/add-card', this.card)
         .then((resp)=> {
           if(resp){
@@ -194,9 +175,6 @@ export default {
         .catch((e) =>{
           this.$router.push({name: "Login"})
         })
-      // } else{
-      //   this.card.quantity++
-      // }
     },
     formSubmit(){
       axios.post('/new-review', this.rate)
@@ -204,7 +182,7 @@ export default {
           if(resp){
             this.$router.push({name: "Home"})
           } else {
-            console.log('this reviews not found')
+            this.error ='this reviews not found'
           }
         })
         .catch((e) =>{
@@ -212,7 +190,6 @@ export default {
         })
     },
     addHeart(id, i){
-      console.log(i)
       if(this.heartId.includes(id)===false) {
         axios.get('/product/' + id)
           .then((resp) => {
@@ -225,14 +202,14 @@ export default {
               localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
               localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
             } else {
-              console.log('this reviews not found')
+              this. error ='this reviews not found'
             }
           })
           .catch((e) => {
-            console.log(e)
+            this. error =e.response.data.message
           })
       } else {
-        console.log('error')
+        this.error = 'error'
       }
     },
   }

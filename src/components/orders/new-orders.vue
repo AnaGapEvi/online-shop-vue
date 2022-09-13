@@ -51,7 +51,8 @@ export default {
     },
     confirmOrder(id) {
         axios.get('/confirm-order/'+id).then((res) => {
-          window.location.reload()
+         let i =  this.orders.some( element => element.status === 'confirm')
+          this.orders.splice(i, 1)
           return res;
         }).catch((error) => {
           return error
@@ -59,7 +60,8 @@ export default {
     },
     cancelOrder(id){
       axios.get('/cancel-order/'+id).then((res) => {
-        window.location.reload()
+       let i =  this.orders.some( element => element.status === 'cancelled')
+        this.orders.splice(i, 1)
         return res;
       }).catch((error) => {
         return error

@@ -16,10 +16,10 @@ Vue.use(StripeElementCard)
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
+// Vue.prototype.$isAuth = false
 new Vue({
   el: '#app',
   router,
-
   components: { App },
   template: '<App/>'
 })

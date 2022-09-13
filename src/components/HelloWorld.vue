@@ -1,16 +1,12 @@
 <template>
   <div class="home">
-
       <router-link :to="{name: 'HelloWorld', params: {page: page}}">Go to Shop</router-link>
-
   </div>
 </template>
 
 <script>
-import NavHome from "./custom/NavHome";
 export default {
   name: 'HelloWorld',
-  components: {NavHome},
   data(){
     return {
       page: 1,

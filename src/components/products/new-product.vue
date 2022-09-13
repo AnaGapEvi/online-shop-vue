@@ -164,9 +164,7 @@ export default {
     },
     onImageChange(e){
       this.image = e.target.files[0];
-      console.log(this.image)
     },
-
     formSubmit(e) {
       e.preventDefault();
       const config = {
@@ -179,14 +177,11 @@ export default {
       formData.append('price', this.price)
       formData.append('quantity', this.quantity)
       formData.append('category_id', this.category_id)
-      for (let value of formData.values()) {
-        console.log(value);
-      }
+
       axios.post('/new-product', formData, config)
         .then((response) => {
           if(response){
             this.$router.push({name: "HelloWorld"})
-
           }
         }).catch( error => {
         return error;
@@ -200,7 +195,6 @@ export default {
 <style scoped>
 .prod{
   background-color: #698d94;
-
   color: black;
   width: 500px;
   margin: 0 auto;

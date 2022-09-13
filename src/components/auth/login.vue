@@ -61,8 +61,6 @@
                 >
                   Sign in
                 </b-button>
-
-
               </div>
               <span style="color: #e59898" v-if="error!==''">{{error}}</span>
             </b-form>
@@ -101,8 +99,8 @@ export default {
           .then(result => {
             localStorage.setItem('access_token', result.data.token);
             resolve(true)
-            this.$router.push({name: "HelloWorld"})
-            window.location.reload()
+            this.$router.push({path: "/"})
+            // window.location.reload()
           }).catch(error => {
             this.error=error.response.data.message
             this.form.password = ''
