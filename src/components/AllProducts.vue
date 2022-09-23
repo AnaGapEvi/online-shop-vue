@@ -4,7 +4,7 @@
       <div v-for="product in products"
                 :key="product.id"
       >
-        <ProductItem :product="product"/>
+<!--        <ProductItem :product="product"/>-->
       </div>
     </div>
 
@@ -36,24 +36,6 @@ export default {
       products:{}
     }
   },
-  methods: {
-    changePage(page) {
-      this.currentPage = page
-    },
-    getProduct() {
-      return new Promise((resolve, reject) => {
-        axios.get('products').then((res) => {
-
-          this.products = res.data
-          this.originalProducts = this.products;
-          return resolve(true);
-        }).catch((error) => {
-          return reject(error)
-        })
-      })
-    },
-
-  },
   computed: {
     totalPages() {
       return Math.ceil(this.products.length / this.perPage)
@@ -63,8 +45,21 @@ export default {
     }
   },
   mounted() {
-    this.getProduct()
-  }
+    this.getProducts()
+  },
+  methods: {
+    changePage(page) {
+      this.currentPage = page
+    },
+    getProducts() {
+      axios.get('products').then(response => {
+          this.products = response.data
+          this.originalProducts = this.products;
+        }).catch(error => {
+          return error
+        })
+    },
+  },
 
 }
 </script>

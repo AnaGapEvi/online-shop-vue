@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar class="w-25"></nav-bar>
+    <nav-bar class="w-20"></nav-bar>
   </div>
 </template>
 
@@ -12,7 +12,6 @@ export default {
     return {
       data: {},
       categories: [],
-
     }
   },
   created() {
@@ -41,27 +40,12 @@ export default {
         })
       })
     },
-    logout(){
-      axios.get('/logout').then(result => {
-        localStorage.removeItem('access_token');
-        // this.$router.push({name: "HelloWorld"});
-        window.location.reload()
-      }).catch(error => {
-        return error
-      })
-    },
 
   }
 }
 </script>
 
 <style scoped>
-.nav{
-  /*display: flex;*/
-  /*align-items: flex-start;*/
-  color: white;
-  width: 100%;
-}
 router-link{
   color: white;
   text-decoration: none;

@@ -7,13 +7,11 @@
     </form>
     <b-table striped hover :items="repeats"></b-table>
     <b-table striped hover :items="errors" ></b-table>
-
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
 export default {
     data(){
       return{
@@ -27,7 +25,6 @@ export default {
     },
     methods:{
       getReports(){
-        // axios.post('/add-card', this.card)
         axios.post('/reports', this.form).then((res) => {
             if(res){
               this.repeats = res.data

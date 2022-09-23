@@ -115,7 +115,6 @@
                       label-for="Card cvv"
                       aria-placeholder="****"
                       slot-scope="{ errors }"
-
                       :invalid-feedback="errors[0]"
                     >
                       <b-form-input
@@ -143,7 +142,6 @@
 </template>
 <script>
 import { StripeCheckout } from '@vue-stripe/vue-stripe';
-
 import axios from "axios";
 
 export default {

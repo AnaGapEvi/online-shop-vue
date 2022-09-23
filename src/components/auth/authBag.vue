@@ -1,5 +1,5 @@
 <template>
-  <div class="bag" style="margin: 0 auto">
+  <div class="bag" style="margin: 0 auto; padding-top: 80px">
     <p v-if="products.length === 0">
       There are no product in cart....
       <router-link style="text-decoration: none" to="/">shopping</router-link>
@@ -29,17 +29,13 @@
           >
         </td>
         <td>
-          <router-link
-            style="color: black; text-decoration: none"
-            :to="{ path: '/one-product/' + product.id }"
-          >
-            <!--            <img :src="`http://127.0.0.1:8000/${product.image}`" height="100px" width="100px">-->
-            <img
-              :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`"
-              height="100px"
-              width="100px"
-            />
-            <!--            <img :src="`https://damp-taiga-05096.herokuapp.com/${product.image}`" height="100px" width="100px">-->
+          <router-link style="color: black; text-decoration: none" :to="{ path: '/one-product/' + product.id }">
+         <img :src="`http://127.0.0.1:8000/${product.image}`" height="100px" width="100px">
+<!--            <img-->
+<!--              :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`"-->
+<!--              height="100px"-->
+<!--              width="100px"-->
+<!--            />-->
           </router-link>
         </td>
         <td>
@@ -47,9 +43,8 @@
             variant="danger"
             type="submit"
             @click="deleteProduct(product.pivot.id)"
-          >
-            Delete</b-button
-          >
+          > Delete
+          </b-button>
           <router-link
             :to="{
               name: 'ShoppingInformation',
@@ -57,8 +52,8 @@
                 price: products[item].price * products[item].pivot.quantity,
               },
             }"
-            ><b-button variant="info" type="submit"> Buy</b-button></router-link
-          >
+            ><b-button variant="info" type="submit"> Buy</b-button>
+          </router-link>
         </td>
       </tr>
     </table>
@@ -75,7 +70,6 @@
 
 <script>
 import axios from "axios";
-import { CLIENT_RENEG_LIMIT } from "tls";
 
 export default {
   data() {
@@ -121,16 +115,9 @@ export default {
     },
     deleteProduct(id) {
       axios.delete("/delete-bag/" + id).then((resp) => {
-        // console.log(this.products.filter(e => {
-        //   e.pivot.id !== id;
-        // }))
         this.getCard()
-        // this.products = this.products.filter((e) => {
-        //   return e.pivot.id !== id;
-        // });
       });
     },
-
     incrementItem(item, id) {
       axios
         .put(`/increment-quantity/${item}`)
@@ -154,16 +141,14 @@ export default {
   },
 };
 </script>
-
 <style scoped>
+
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
-
-th,
-tr {
+th, tr {
   border-bottom: 1px solid #dddddd;
   text-align: left;
   padding: 8px;

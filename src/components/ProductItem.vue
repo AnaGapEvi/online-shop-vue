@@ -1,21 +1,19 @@
 <template>
-  <div style="max-width: 100%">
+  <div class="one-product">
     <button style="border: none; background-color: white; margin-right: 125px"  @click="addHeart(productItem.id)">
-      <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" >
-        >   </b-icon>
+      <b-icon icon="heart" :style="isClicked ? { 'color': 'red' } : null" ></b-icon>
     </button>
-
     <button style="border: none; background-color: white" @click="addLike(productItem.id)">
       <b-icon  icon="hand-thumbs-up" :style="isClicked2 ? { 'color': 'red' } : null"
       ></b-icon>
     </button>
     <router-link style="color: black; text-decoration: none" :to=" {path: '/one-product/'+productItem.id}">
-      <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`" height="200px" width="200px">
-<!--      <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">-->
-      {{productItem.name }}
+<!--      <img :src="`https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=898&q=80`" height="200px" width="200px">-->
+      <img :src="`https://damp-taiga-05096.herokuapp.com/${productItem.image}`" height="200px" width="200px">
+      <p>{{productItem.name }}</p>
       <hr>
       <p>Price <b style="color: green">{{productItem.price}}$</b>  </p>
-      <div style="display: flex; justify-content: space-between">
+      <div class="product-reviews" style="display: flex; justify-content: space-between">
         <p>Reviews <router-link style="color: black"  :to=" {path: '/one-product/'+productItem.id}"></router-link></p>
         <p v-if="total">Liked: <b>{{ total}}</b>  </p>
 
@@ -24,7 +22,7 @@
     </router-link>
     <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>
     <b-button variant="outline-primary" v-if="token!==''"  :to="{ name: 'ShoppingInformation', params: { price: productItem.price }}">Buy</b-button>
-    <b-button @click="add(productItem.id)"  variant="outline-primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
+    <b-button @click="addToCart(productItem.id)"  variant="outline-primary" @keydown="modalShow = !modalShow"> Add to cart</b-button>
     <b-modal v-model="modalShow">Hello From Modal!</b-modal>
   </div>
 </template>
@@ -38,7 +36,7 @@ export default {
   data() {
     return {
       productItem: this.product,
-      isLoading:'',
+      // isLoading:'',
       isClicked: false,
       isClicked2: false,
       token:'',
@@ -87,15 +85,11 @@ export default {
     }
   },
   methods: {
-    add(id){
+    addToCart(id){
       this.card.product_id = id
       axios.post('/add-card', this.card)
         .then((resp)=> {
-          if(resp){
             return resp.data
-          } else {
-            console.log('this reviews not found')
-          }
         })
         .catch((e) =>{
           this.$router.push({name: "Login"})
@@ -187,5 +181,8 @@ export default {
 div {
   margin: 3px;
   text-align: center;
+}
+.one-product{
+  max-width: 100%;
 }
 </style>

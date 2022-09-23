@@ -73,8 +73,6 @@
                 >
                   Sign in
                 </b-button>
-
-
               </div>
               <span style="color: #e59898" v-if="error!==''">{{error}}</span>
             </b-form>
@@ -108,15 +106,11 @@ export default {
     reset() {
       if(this.user.password===this.user.repeat){
         axios.put('/forgot', this.user)
-          .then((resp) => {
-            if(resp){
+          .then(response => {
               this.$router.push({name: "Login"});
-            } else {
-              this.error='you not have a account'
-            }
           })
-          .catch((e) => {
-            console.log(e)
+          .catch((error) => {
+            this.error= error.response.data.message
           })
       } else{
         this.error='password does not match'
@@ -136,7 +130,6 @@ export default {
   color: white;
 }
 .forgot{
-
   justify-content: center;
   align-items: center;
 }

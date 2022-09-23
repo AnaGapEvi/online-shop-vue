@@ -1,11 +1,9 @@
 <template>
   <div class="orders">
-    <div style="display: flex; justify-content: space-between">
+    <div >
       <h1>My orders</h1>
       <router-link style="color: black; margin-left: 15px"  to="/search-order"> Search Order by number</router-link>
     </div>
-
-
     <b-table striped hover :items="items"></b-table>
   </div>
 </template>
@@ -22,7 +20,6 @@ export default {
   mounted() {
     this.DeliveredOrders()
   },
-
   methods: {
     DeliveredOrders() {
       return new Promise((resolve, reject) => {
@@ -41,5 +38,9 @@ export default {
 <style scoped>
 .orders{
   padding: 70px;
+}
+.orders div{
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="total-order">
     <h1>All orders</h1>
     <b-table striped hover :items="items"></b-table>
   </div>
@@ -17,7 +17,6 @@ export default {
   mounted() {
     this.allOrders()
   },
-
   methods: {
     allOrders() {
       return new Promise((resolve, reject) => {
@@ -34,5 +33,8 @@ export default {
 </script>
 
 <style scoped>
-
+.total-order{
+  padding: 70px 150px;
+  text-align: center;
+}
 </style>

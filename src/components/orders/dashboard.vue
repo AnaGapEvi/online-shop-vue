@@ -2,7 +2,6 @@
   <div class="dashboard">
       <div class="list">
         <nav-bar class="navbar" ></nav-bar>
-
         <b-card-group deck class="d-flex flex-wrap w-80 h-25  p-3 m-3" >
             <b-card bg-variant="primary" text-variant="white" header="TOTAL ORDERS" class="m-3 text-center" >
               <router-link to="/total-order" style="color: black; text-decoration: none">
@@ -45,8 +44,9 @@ export default {
   display: flex;
 }
 .navbar{
-  width: 25%;
-  height: 100vh;
+  width: 20%;
+  margin-top: 20px;
+  height: 718px;
 }
 .dashboard{
   padding-top: 50px;

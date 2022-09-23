@@ -1,9 +1,9 @@
 <template>
   <div class="user-box">
-    <h1>All Users</h1>
+    <h3>All Users</h3>
       <b-table
         :fields="fields"
-        class="p-5"
+        class="p-5 m-auto"
         id="my-table"
         :items="users"
       ></b-table>
@@ -41,13 +41,8 @@ export default {
 
 <style scoped>
 .user-box{
-  width: 80%;
-  /*display: flex;*/
-  /*flex-wrap: wrap;*/
-}
-.user-card{
-  border: 2px solid black;
-  margin: 2px 15px;
-  padding: 2px;
+  padding: 80px ;
+  text-align: center;
+  width: 100%;
 }
 </style>

@@ -5,7 +5,7 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse"  class="w-100"  is-nav >
         <div style="display: flex; width: 50%"  v-for="category in categories" :key="category.id">
-          <b-navbar-nav style="color: white; margin:0px 10px 0px 10px">
+          <b-navbar-nav style="color: white; margin:0 10px 0 10px">
             <router-link :to="{ path: '/categories-product/'+ category.id}" >Adventure books</router-link>
           </b-navbar-nav>
         </div>
@@ -19,14 +19,11 @@
             <b-nav-item :to="{ name: 'Login' }"> Sign in </b-nav-item>
           </div>
           <b-nav-item-dropdown class="w-20 " v-if="email !== ''" style="color: white"  right>
-            <!-- Using 'button-content' slot -->
             <template #button-content class="d-flex align-items-center" >
               <em style="color: white">{{email}}</em>
             </template>
-
             <b-dropdown-item v-if="role ==='admin'" href="#"><router-link to="/dashboard"> My Account</router-link></b-dropdown-item>
             <b-dropdown-item v-if="role ==='user'" href="#"><router-link to="/my-profile"> My Account</router-link></b-dropdown-item>
-
             <b-dropdown-item href="#">
               <a href="/login" @click.prevent="logout()" >
                 Logout
@@ -35,7 +32,6 @@
           </b-nav-item-dropdown>
           <b-navbar-nav v-if="role !== ''" style="color: #dddddd" href="/orders"><router-link style="text-decoration: none; color: #dddddd" to="/user-order"> Orders</router-link></b-navbar-nav>
         </div>
-
       </b-collapse>
     </b-navbar>
   </div>
@@ -43,81 +39,67 @@
 
 <script>
 import axios from "axios";
-// import SearchOrder from "../orders/searchOrder";
 
 export default {
-  // components: {SearchOrder},
   data(){
-   return{
-     email:'',
-     role:'',
-     keyword: null,
-     Books: [],
-     heart:[],
-     categories: [],
-     search:'',
-     order:{},
-     page: 1
-
-   }
- },
-
+     return{
+       email:'',
+       role:'',
+       keyword: null,
+       Books: [],
+       heart:[],
+       categories: [],
+       search:'',
+       order:{},
+       page: 1
+     }
+   },
   created() {
-   if (localStorage.getItem('access_token')){
-             this.getMy()
-   }
-    this.getCategories()
-    this.heart = JSON.parse(localStorage.getItem('hearts'))
-  },
-
+     if (localStorage.getItem('access_token')){
+               this.getMy()
+     }
+      this.getCategories()
+      this.heart = JSON.parse(localStorage.getItem('hearts'))
+    },
   methods: {
-    getCategories() {
+      getCategories() {
+          return new Promise((resolve, reject) => {
+              axios.get('categories').then((res) => {
+                this.categories = res.data
+                return resolve(true);
+              }).catch((error) => {
+                return reject(error)
+              })
+          })
+      },
+      getMy(){
         return new Promise((resolve, reject) => {
-          axios.get('categories').then((res) => {
-            this.categories = res.data
-             return resolve(true);
-          }).catch((error) => {
-            return reject(error)
+          axios.get('/me')
+            .then(result => {
+              this.email = result.data.user.email
+              this.role = result.data.user.role
+              resolve(true)
+            }).catch(error => {
+            reject(error)
           })
         })
-    },
-    getMy(){
-      return new Promise((resolve, reject) => {
-        axios.get('/me')
-          .then(result => {
-            this.email = result.data.user.email
-            this.role = result.data.user.role
-            resolve(true)
-          }).catch(error => {
-          reject(error)
+      },
+      logout(){
+        axios.get('/logout').then(result => {
+          localStorage.removeItem('access_token');
+          this.email=''
+          this.role=''
+          this.$router.push({name: "HelloWorld"})
+        }).catch(error => {
+          return error
         })
-      })
-    },
-    logout(){
-      axios.get('/logout').then(result => {
-        localStorage.removeItem('access_token');
-        this.email=''
-        this.role=''
-        // this.$router.push({name: "HelloWorld"})
-        // window.location.reload()
-
-      }).catch(error => {
-        return error
-      })
-    },
-    shoppingPortal(){
-       this.page = localStorage.getItem('page')
-      this.page = 1
-      // this.page = localStorage.getItem('page')
-      localStorage.setItem('page', this.page)
-      this.$router.push({ name: 'HelloWorld' })
-      // window.location.reload()
-    },
-
-    searchOrderNum(){
-      alert(typeof Number(this.search))
-            this.$router.push({name: 'SearchOrder'})
-    }
+      },
+      shoppingPortal(){
+         this.page = localStorage.getItem('page')
+        this.page = 1
+        localStorage.setItem('page', this.page)
+        this.$router.push({ name: 'HelloWorld' })
+      },
   }
 }
 </script>

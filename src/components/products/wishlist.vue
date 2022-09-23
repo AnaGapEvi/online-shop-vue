@@ -5,8 +5,6 @@
         <div>
           <p>{{ item.name }}</p>
           <p> Price: {{ item.price}}$</p>
-<!--          <button type="submit" > Delete</button>-->
-<!--          <button type="submit" > Add to cart</button>-->
           <b-button variant="outline-danger" @click="deleteItem(item.id)" >Delete</b-button>
           <b-button variant="outline-primary" @click="add(item.id)" >Add to cart</b-button>
           <b-button variant="outline-primary" v-if="token===''" to="/login">Buy</b-button>

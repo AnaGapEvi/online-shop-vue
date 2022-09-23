@@ -1,5 +1,5 @@
 <template>
-      <b-navbar type="dark" variant="dark" style="height: 100vh">
+      <b-navbar type="dark" variant="dark" >
         <b-navbar-nav style="padding: 5px; display: flex; flex-direction:column; align-items:baseline ; justify-content: end">
           <h4>Admin Dashboard</h4>
           <b-nav-text style="color: gray">CORE</b-nav-text>
@@ -15,7 +15,7 @@
           </b-nav-item-dropdown>
           <b-nav-item-dropdown text="Products" right><br>
             <b-dropdown-item href="/new-product"> New Product </b-dropdown-item>
-            <b-dropdown-item href="/all-products">  All Products </b-dropdown-item>
+            <b-dropdown-item href="/">  All Products </b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item href="#" disabled>ORDER MANAGEMENT</b-nav-item><br>
           <b-nav-item-dropdown text="Orders" right>
@@ -26,9 +26,7 @@
             <b-dropdown-item href="#"><router-link to="/order-reports">REPORTS</router-link></b-dropdown-item>
           </b-nav-item-dropdown>
           <router-link to="/registered-users" style="text-decoration: none; color: white">Registered users</router-link>
-          <b-nav-text style="background-color: gray; width: 100%; display: flex; align-items: end; justify-content: center">
-            Logged in us admin
-          </b-nav-text>
+
         </b-navbar-nav>
       </b-navbar>
 </template>

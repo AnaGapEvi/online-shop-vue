@@ -19,7 +19,6 @@ export default {
   data(){
     return {
       originalProducts: [],
-
       productSearch: '',
       bag:{},
       count:0,
@@ -45,6 +44,11 @@ export default {
       router: this.$route.params.id
     }
   },
+  watch: {
+    categoryId(newValue, old){
+      this.getProduct()
+    }
+  },
   computed: {
     rows() {
       return this.products.length
@@ -55,16 +59,15 @@ export default {
         this.count=''
         return num
     },
-    catId () {
+    categoryId () {
       return this.$route.params.id
     }
   },
-  created(){
-    this.getProduct()
 
+  created() {
+    this.getProduct()
   },
   mounted() {
-    console.log('mounted', this.router);
     if(localStorage.getItem('access_token')){
       this.token=localStorage.getItem('access_token')
     }
@@ -80,15 +83,10 @@ export default {
   },
   methods: {
     getProduct() {
-      console.log(this.catId);
-      return new Promise((resolve, reject) => {
-        axios.get('/categories-product/' + this.catId).then((res) => {
-          this.products = res.data
-          return resolve(true);
-        }).catch((error) => {
-          return reject(error)
+      console.log(this.categoryId)
+       axios.get('/categories-product/' + this.categoryId).then(response => {
+          this.products = response.data
         })
-      })
     },
     formSubmit(){
       axios.post('/new-review', this.rate)
@@ -132,11 +130,10 @@ export default {
             this.error='this reviews not found'
           }
         })
-        .catch((e) =>{
+        .catch(error =>{
           this.$router.push({name: "Login"})
         })
     },
-
     toggleIsClicked(id) {
       this.isClicked = !this.isClicked
       if(this.isClicked===false){

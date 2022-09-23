@@ -1,6 +1,5 @@
-import Stripe from "./paymentStripe";
+import Stripe from "./PaymentStripe";
 import Cart from "./CardCvv"
-
 
 export default [
   { path: '/payment/:price', name:'Payment', component: Stripe },

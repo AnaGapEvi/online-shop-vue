@@ -6,7 +6,6 @@
       mode="payment"
       :pk="publishableKey"
       :line-items="lineItems"
-
       :success-url="successURL"
       :cancel-url="cancelURL"
       @loading="v => loading = v"

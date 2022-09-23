@@ -44,26 +44,20 @@ export default {
   components: {ProductItem},
   data(){
     return {
-
-      active_el:0,
-      activeColor: 'red',
-      fontSize: 30,
-      count:'',
-      currentHeart: this.mode,
-      currentLike: this.mode,
+      // currentHeart: this.mode,
+      // currentLike: this.mode,
       perPage: 10,
       currentPage: 1,
       products:[],
       originalProducts: [],
       productSearch: '',
-      modalShow: false,
+      // modalShow: false,
       token:'',
-      rate: {
-        value:  null,
-        comment: '',
-        product_id: ''
-      },
-
+      // rate: {
+      //   value:  null,
+      //   comment: '',
+      //   product_id: ''
+      // },
       card:{
         quantity:1,
         product_id:null
@@ -73,12 +67,11 @@ export default {
       likes:[1],
       hearts:[],
       heartId:[],
-      cart:{},
+      // cart:{},
       page: 1,
       isLoading: true,
-      className:'',
-      moveToDown:false,
-      error:''
+      // className:'',
+      // moveToDown:false,
     }
   },
   computed: {
@@ -86,38 +79,31 @@ export default {
       localStorage.setItem('page', this.currentPage)
       this.page=localStorage.getItem('page')
       this.currentPage=this.page;
-
-
       return this.products.length
     }
   },
-
   created() {
     this.getProduct()
+    if(localStorage.getItem('access_token')){
+      this.token=localStorage.getItem('access_token')
+    }
     if (localStorage.getItem('page')){
       this.page=localStorage.getItem('page')
     }
   },
   mounted() {
     this.currentPage= localStorage.getItem('page')
-    this.getCard()
-        if(localStorage.getItem('access_token')){
-          this.token=localStorage.getItem('access_token')
-         }
-      this.my = localStorage.getItem('access_token')
-      this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
-      this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
-      this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
-  },
-  methods: { 
-    moveTo () {
-      window.scrollTo(0,0);
 
-    },
+    this.my = localStorage.getItem('access_token')
+    this.likes = JSON.parse(localStorage.getItem('likes')) ||[]
+    this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
+    this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
+  },
+  methods: {
     changeColor(){
       this.isLoading = !this.isLoading;
     },
-    searchProducts: function()
+    searchProducts()
     {
       if(this.productSearch == '')
       {
@@ -146,101 +132,15 @@ export default {
         })
       })
     },
-    getCard() {
-      return new Promise((resolve, reject) => {
-        axios.get('/shopping-cart').then((res) => {
-          this.cart = res.data
-          return resolve(true);
-        }).catch((error) => {
-          return reject(error)
-        })
-      })
-    },
-    add(id){
-      this.card.product_id = id
-        axios.post('/add-card', this.card)
-        .then((resp)=> {
-          if(resp){
-            return resp.data
-            // this.$router.push({name: "Home"})
-          } else {
-            console.log('this reviews not found')
-          }
-        })
-        .catch((e) =>{
-          this.$router.push({name: "Login"})
-        })
-    },
-    formSubmit(){
-      axios.post('/new-review', this.rate)
-        .then((resp)=> {
-          if(resp){
-            this.$router.push({name: "Home"})
-          } else {
-            this.error ='this reviews not found'
-          }
-        })
-        .catch((e) =>{
-          console.log(e)
-        })
-    },
-    addHeart(id, i){
-      if(this.heartId.includes(id)===false) {
-        axios.get('/product/' + id)
-          .then((resp) => {
-            if (resp) {
-              this.hearts = JSON.parse(localStorage.getItem('hearts')) || []
-              this.heartId = JSON.parse(localStorage.getItem('heartId')) || []
-              this.hearts.push(resp.data)
-              this.heartId.push(resp.data.id)
-
-              localStorage.setItem('hearts', JSON.stringify([...this.hearts]))
-              localStorage.setItem('heartId', JSON.stringify([...this.heartId]))
-            } else {
-              this. error ='this reviews not found'
-            }
-          })
-          .catch((e) => {
-            this. error =e.response.data.message
-          })
-      } else {
-        this.error = 'error'
-      }
-    },
   }
 }
 </script>
 
 <style scoped>
-.heart{
-  position: absolute;
-}
-.like{
-  position: absolute;
-  margin-left: 25px;
-}
-.heart:active{
-  background-color: red;
-}
-.like:active{
-  background-color: blue;
-}
+
 .home{
   background-image: url("https://sbooks.net/wp-content/uploads/2021/10/old-book-flying-letters-magic-light-background-bookshelf-library-ancient-books-as-symbol-knowledge-history-218640948.jpg");
   min-height: 100vh;
   padding:60px;
-}
-.active {
-  color:red;
-  /*font-weight:bold;*/
-}
-.icon:active{
-  background: red;
-}
-.is-red{
-  color: red;
-}
-.is-blue{
-  color: blue;
 }
 </style>

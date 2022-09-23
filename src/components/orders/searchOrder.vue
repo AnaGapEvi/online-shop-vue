@@ -8,7 +8,6 @@
       <b-input type="number" v-model="searchOrder" size="lg" class="mr-sm-2" placeholder="Enter order number"></b-input>
       <b-button @click.prevent="OrderItems()" size="sm" style="display: flex" class="my-2 my-sm-0" type="submit"><b-icon icon="search" aria-hidden="true"></b-icon>Search</b-button>
     </div>
-
     <div v-if="length===1" style="width: 50%;text-align: center; margin-top: 100px">
       <p>OrderStatus:  {{order.status}}</p>
       <p>Amount: {{order.amount}}</p>

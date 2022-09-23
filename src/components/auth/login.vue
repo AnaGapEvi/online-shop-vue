@@ -98,9 +98,8 @@ export default {
         axios.post('/login', this.form)
           .then(result => {
             localStorage.setItem('access_token', result.data.token);
-            resolve(true)
+            // resolve(true)
             this.$router.push({path: "/"})
-            // window.location.reload()
           }).catch(error => {
             this.error=error.response.data.message
             this.form.password = ''

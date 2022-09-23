@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <div >
+    <div>
       <b-card no-body class="overflow-hidden" style="max-width: 50rem;">
         <b-row no-gutters>
           <a @click="back()" style="display: flex; justify-content: flex-end"><b-icon icon="x" scale="2" variant="dark" ></b-icon></a>
@@ -52,17 +52,17 @@
     </div>
 
     <div  style="width: 100%">
-      <div class="mt-3 bg-light"   style="width: 50rem; padding: 0; " v-for="review in reviews" :key="review.id">
+      <div class="mt-3"   style="color: white; width: 50rem; padding: 0; " v-for="review in reviews" :key="review.id">
         <div>
            <p>NAME: {{review.user.first_name}} </p>
            <p>Comment: {{review.comment}} </p>
           <b-form-rating v-model="review.stars" variant="primary" readonly></b-form-rating>
-          <b-button v-if="review.user_id===id" @click="deleteReview(review.id)"  variant="danger"> Delete</b-button>
-          <b-button v-if="review.user_id===id" @click="openModal(review.id)">Edit</b-button>
+          <b-button class="mt-3" v-if="review.user_id===id" @click="deleteReview(review.id)"  variant="danger"> Delete</b-button>
+          <b-button class="mt-3" v-if="review.user_id===id" @click="openModal(review.id)">Edit</b-button>
         </div>
         <hr>
         <div class="col-sm-2">
-          <div class="rating-stars">
+          <div>
               <span v-for="iteration in 5" :key="iteration" :class="{'far fa-star':iteration<(parseInt(review.stars)+1)}">
                  <i class="fas fa-star"></i>
               </span>
@@ -72,9 +72,10 @@
       </div>
     </div>
     <b-modal id="modal-1" title="Update review">
-          <input type="text" v-model="selectedReview.comment" >
+          <input type="text" class="rating-stars" v-model="selectedReview.comment" >
           <b-form-rating v-model="selectedReview.stars" variant="primary"></b-form-rating>
-          <b-button @click="editReview(selectedReview.id)">edit</b-button>
+          <b-button class="batn" @click="editReview(selectedReview.id)"> UPDATE
+          </b-button>
     </b-modal>
   </div>
 </template>
@@ -276,8 +277,7 @@ export default {
       axios.delete('/delete-review/'+id)
         .then((resp)=> {
           if(resp){
-            let i = this.reviews.map(data => data.id).indexOf(id)
-             this.reviews.splice(i, 1)
+            this.getReviews()
           } else {
             this.error = 'this reviews not found'
           }
@@ -303,13 +303,15 @@ export default {
         .then((resp)=> {
           if(resp){
             this.products=this.reviews
+            this.rate.comment=''
+            this.rate.value=null
 
-            window.location.reload()
+            this.getReviews()
           }
           else {
             console.log('this reviews not found')
           }
-        }).catch((e) =>{
+        }).catch((error) =>{
           if(!localStorage.getItem("access_token") ){
               this.error='Go to login or registration'
           } else if(this.rate.comment==='' && this.rate.value===''){
@@ -330,9 +332,8 @@ export default {
             this.error='this reviews not found'
           }
         })
-        .catch((e) =>{
-          // return e
-          this.$router.push({name: "Login"})
+        .catch((error) =>{
+          if(error) this.$router.push({name: "Login"})
         })
     },
   }
@@ -340,16 +341,23 @@ export default {
 </script>
 
 <style scoped>
+.rating-stars{
+  /*background: #e55757;*/
+  width: 100%;
+  padding: 5px ;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  border: rgba(163, 170, 178, 0.63) 1px solid;
+}
 .product{
-  /*display: flex;*/
-
-  /*width: 100%;*/
-  /*height: 100vh;*/
   background-color: #343a40;
   min-height: 100vh;
   padding: 70px;
-  /*justify-content: space-between;*/
-  /*align-items: center;*/
-  /*color: white;*/
+}
+.batn{
+  margin-top: 5px;
+  background-color: orange;
+  border: none;
+  width: 100%;
 }
 </style>

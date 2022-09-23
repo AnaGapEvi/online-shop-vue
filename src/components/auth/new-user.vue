@@ -23,7 +23,6 @@
               placeholder="first name..."
               :state="errors[0] ? false : null"
               trim
-
             ></b-form-input>
           </b-form-group>
         </validation>
@@ -140,7 +139,6 @@
             <input type="date" id="start" name="trip-start"
                    value="2018-07-22"
                    min="2018-01-01" max="2018-12-31">
-
           </validation>
           <validation
             name="gender"
@@ -156,7 +154,6 @@
       </validation-observer>
       <span v-if="errore!==''">{{errore}}</span>
     </div>
-
   </div>
 </template>
 
@@ -211,7 +208,6 @@ export default {
         modalShow('password does not match')
       }
     }
-
   }
 }
 </script>

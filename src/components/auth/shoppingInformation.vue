@@ -16,7 +16,7 @@
                   :invalid-feedback="errors[0]"
                 >
                   <b-select  style="width: 100%; padding: 10px" @change="onChange($event)">
-                    <option v-for="country in countries" >
+                    <option v-for="country in countries" :key="country.id" >
                       {{country.country}}
                     </option>
                   </b-select>
@@ -35,7 +35,7 @@
             :invalid-feedback="errors[0]"
           >
             <b-select style="width: 100%; padding: 10px" @change="onChangeCity($event)">
-              <option v-for="city in cities" >
+              <option v-for="city in cities" :key="city.id">
                 {{city}}
               </option>
             </b-select>
@@ -60,7 +60,6 @@
                 placeholder="address..."
                 :state="errors[0] ? false : null"
                 trim
-
               ></b-form-input>
             </b-form-group>
         </validation>
@@ -84,7 +83,6 @@
                 placeholder="zip..."
                 :state="errors[0] ? false : null"
                 trim
-
               ></b-form-input>
             </b-form-group>
         </validation>
@@ -97,13 +95,11 @@
               label-for="nested-state"
               label-cols-sm="3"
               label-align-sm="right"
-
               slot-scope="{ errors }"
               :invalid-feedback="errors[0]"
             >
               <b-form-input
                 id="input-1"
-
                 v-model="form.telephone"
                 type="number"
                 :formatter="formatTel"
@@ -117,10 +113,7 @@
                <p>Total: {{this.$route.params.price}} $ </p>
               <b-button variant="success" @click="ship()">Buy</b-button>
               <b-button variant="info" @click="back()">back</b-button>
-
       </validation-observer>
-
-
     </b-card>
   </div>
 </template>

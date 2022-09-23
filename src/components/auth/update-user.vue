@@ -169,7 +169,6 @@ export default {
       },
       user:[],
       errors:[]
-
     }
   },
   mounted() {
@@ -208,15 +207,6 @@ export default {
 }
 </script>
 <style scoped>
-.reg {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  background-color: #343A40;
-  justify-content: center;
-  align-items: center;
-  color: white;
-}
 .update{
   display: flex;
   justify-content: center;

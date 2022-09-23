@@ -14,7 +14,6 @@
         <td class="th">{{order.user_id}}</td>
         <td class="th">{{order.amount}}</td>
         <td class="th">{{order.status}}</td>
-<!--        <td>{{// order.created_at}}</td>-->
         <td class="th">{{ order.updated_at}}</td>
         <td class="th">
           <button @click="confirmOrder(order.id)"> Confirm</button>
@@ -51,18 +50,14 @@ export default {
     },
     confirmOrder(id) {
         axios.get('/confirm-order/'+id).then((res) => {
-         let i =  this.orders.some( element => element.status === 'confirm')
-          this.orders.splice(i, 1)
-          return res;
+         this.newOrders()
         }).catch((error) => {
           return error
         })
     },
     cancelOrder(id){
       axios.get('/cancel-order/'+id).then((res) => {
-       let i =  this.orders.some( element => element.status === 'cancelled')
-        this.orders.splice(i, 1)
-        return res;
+       this.newOrders()
       }).catch((error) => {
         return error
       })
